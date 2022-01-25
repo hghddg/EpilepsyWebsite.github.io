@@ -8,7 +8,7 @@ namespace Project.Shared.Domains
 {
     public class Itenary : BaseDomainModel
     {
-        public float ToatalPrice { get; set; }
+        public float TotalPrice { get; set; }
 
         public virtual ItenaryItem ItenaryItem { get; set; }
 
