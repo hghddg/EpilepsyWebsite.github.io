@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace Project.Shared.Domains
 {
-    class Payment
+    public class Payment : BaseDomainModel
     {
+        public float Amount { get; set; }
+
+        public string Type { get; set; }
+
+        public DateTime Date { get; set; }
+
     }
 }

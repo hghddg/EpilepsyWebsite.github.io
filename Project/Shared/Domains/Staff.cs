@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace Project.Shared.Domains
 {
-    public class Booking : BaseDomainModel
+    public class Staff : BaseDomainModel
     {
-        
         public string Name { get; set; }
 
-        public virtual Payment Payment { get; set; }
+        public virtual Customer Customer { get; set; }
+
+        public virtual Location Location { get; set; }
     }
 }

@@ -11,5 +11,7 @@ namespace Project.Shared.Domains
         public string Name { get; set; }
 
         public string Detail { get; set; }
+
+        public virtual Staff Staff { get; set; }
     }
 }

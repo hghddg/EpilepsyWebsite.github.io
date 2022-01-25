@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace Project.Shared.Domains
 {
-    class Itenary
+    public class Itenary : BaseDomainModel
     {
+        public float ToatalPrice { get; set; }
+
+        public virtual ItenaryItem ItenaryItem { get; set; }
+
+        public virtual List<Booking> Bookings { get; set; }
+
     }
 }

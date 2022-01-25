@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace Project.Shared.Domains
 {
-    class Hotel
+    public class Hotel : BaseDomainModel
     {
+        public string Name { get; set; }
+
+        public double Rating { get; set; }
+
+        public string Contact { get; set; }
     }
 }

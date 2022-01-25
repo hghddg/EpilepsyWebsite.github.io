@@ -15,5 +15,7 @@ namespace Project.Shared.Domains
         public string ALocation { get; set; }
 
         public float Price { get; set; }
+
+        public virtual Location Location { get; set; }
     }
 }
