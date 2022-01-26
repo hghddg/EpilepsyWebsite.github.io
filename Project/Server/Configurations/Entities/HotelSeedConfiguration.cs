@@ -20,7 +20,11 @@ namespace Project.Server.Configurations.Entities
                     Rating = 4.6,
                     Contact = "+91 22 6668 1234",
                     HLocation = "Band Stand, BJ Road, Mount Mary, Bandra West, Mumbai, Maharashtra 400050, India",
-                    Price = 151.00F
+                    Price = 151.00F,
+                    DateCreated = DateTime.Now,
+                    DateUpdated = DateTime.Now,
+                    CreatedBy = "System",
+                    UpdatedBy = "System"
 
                 },
 
@@ -31,7 +35,11 @@ namespace Project.Server.Configurations.Entities
                     Rating = 4.4,
                     Contact = "+86 10 8511 7777",
                     HLocation = "China, Beijing, Chaoyang",
-                    Price = 175.00F
+                    Price = 175.00F,
+                    DateCreated = DateTime.Now,
+                    DateUpdated = DateTime.Now,
+                    CreatedBy = "System",
+                    UpdatedBy = "System"
                 },
 
                 new Hotel
@@ -41,7 +49,11 @@ namespace Project.Server.Configurations.Entities
                     Rating = 4.7,
                     Contact = "+55 61 3424-7000",
                     HLocation = "SHTN Trecho 1 Conjunto 1B Bloco C - Asa Norte, Brasília - DF, 70800-200, Brazil",
-                    Price = 159.00F
+                    Price = 159.00F,
+                    DateCreated = DateTime.Now,
+                    DateUpdated = DateTime.Now,
+                    CreatedBy = "System",
+                    UpdatedBy = "System"
                 },
 
                 new Hotel
@@ -51,7 +63,11 @@ namespace Project.Server.Configurations.Entities
                     Rating = 4.2,
                     Contact = "+20 2 25777444",
                     HLocation = "1115 Nile Corniche, Sharkas, Bulaq, Cairo Governorate, Egypt",
-                    Price = 145.00F
+                    Price = 145.00F,
+                    DateCreated = DateTime.Now,
+                    DateUpdated = DateTime.Now,
+                    CreatedBy = "System",
+                    UpdatedBy = "System"
                 }
 
 
