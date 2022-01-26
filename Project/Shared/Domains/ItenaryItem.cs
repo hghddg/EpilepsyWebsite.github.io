@@ -15,5 +15,6 @@ namespace Project.Shared.Domains
         public virtual Hotel Hotel { get; set; }
 
         public virtual Itenary Itenary { get; set; }
+
     }
 }

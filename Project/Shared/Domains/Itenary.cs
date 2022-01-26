@@ -10,7 +10,7 @@ namespace Project.Shared.Domains
     {
         public float TotalPrice { get; set; }
 
-        public virtual ItenaryItem ItenaryItem { get; set; }
+        public virtual List<ItenaryItem> ItenaryItem { get; set; }
 
         public virtual List<Booking> Bookings { get; set; }
 

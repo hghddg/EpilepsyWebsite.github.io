@@ -18,7 +18,7 @@ namespace Project.Shared.Domains
 
         public string Contact { get; set; }
 
-        public virtual Staff Staff { get; set; }
+        public string Staff { get; set; }
 
         public virtual List<Booking> Bookings { get; set; }
     }
