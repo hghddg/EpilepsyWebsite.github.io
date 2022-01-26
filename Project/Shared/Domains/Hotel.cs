@@ -13,5 +13,12 @@ namespace Project.Shared.Domains
         public double Rating { get; set; }
 
         public string Contact { get; set; }
+
+        public string HLocation { get; set; }
+
+        public float Price { get; set; }
+
+
+        public virtual Location Location { get; set; }
     }
 }

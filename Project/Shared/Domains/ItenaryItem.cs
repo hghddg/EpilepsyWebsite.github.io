@@ -10,6 +10,10 @@ namespace Project.Shared.Domains
     {
         public float Price { get; set; }
 
+        public virtual Country Country { get; set; }
+
+        public virtual Location Location { get; set; }
+
         public virtual Attraction Attraction { get; set; }
 
         public virtual Hotel Hotel { get; set; }

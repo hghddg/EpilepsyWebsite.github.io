@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace Project.Shared.Domains
 {
-    public class Location : BaseDomainModel
+    public class Country : BaseDomainModel
     {
         public string Name { get; set; }
 
         public string Detail { get; set; }
-
-        public virtual Country Country { get; set; }
     }
 }
