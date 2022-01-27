@@ -26,7 +26,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Components\" />
+    <Folder Include="Components\" />
+    <Folder Include="Pages\Attractions\" />
+    <Folder Include="Pages\Booking\" />
+    <Folder Include="Pages\Country\" />
+    <Folder Include="Pages\Customer\" />
+    <Folder Include="Pages\Hotel\" />
+    <Folder Include="Pages\Itenary\" />
+    <Folder Include="Pages\ItenaryItem\" />
+    <Folder Include="Pages\Location\" />
+    <Folder Include="Pages\Payment\" />
   </ItemGroup>
 
   <ItemGroup>
