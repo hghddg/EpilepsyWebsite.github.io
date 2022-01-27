@@ -1,0 +1,31 @@
+﻿@page "/attractions/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+
+<h3>Attrations</h3>
+
+
+
+@code {
+    private List<Attraction> Attractions;
+   
+    protected async override Task OnInitializedAsync()
+    {
+        Attractions = await _client.GetFromJsonAsync<List<Attraction>>($"{Endpoints.BookingsEndpoint}");
+    }
+
+    async Task Delete(int bookingId)
+    {
+        var booking = Attractions.First(q => q.Id == attractionId);
+        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {attraction.Id}?");
+        if (confirm)
+        {
+            await _client.DeleteAsync($"{Endpoints.AttractionsEndpoint}/{attarctionId}");
+            await OnInitializedAsync();
+
+        }
+    }
+
+
+}

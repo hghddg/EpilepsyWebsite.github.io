@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -27,7 +27,6 @@
 
   <ItemGroup>
     <Folder Include="Components\" />
-    <Folder Include="Pages\Attractions\" />
     <Folder Include="Pages\Booking\" />
     <Folder Include="Pages\Country\" />
     <Folder Include="Pages\Customer\" />
