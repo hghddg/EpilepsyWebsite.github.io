@@ -8,9 +8,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Project.Server.Data;
-using Project.Server.IRepository;
+
 using Project.Server.Models;
-using Project.Server.Repository;
+
 using System.Linq;
 
 namespace Project.Server
@@ -43,7 +43,7 @@ namespace Project.Server
             services.AddAuthentication()
                 .AddIdentityServerJwt();
 
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            
 
             services.AddControllersWithViews();
             services.AddRazorPages();
