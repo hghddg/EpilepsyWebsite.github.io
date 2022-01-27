@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Project.Server.Configurations.Entities;
 using Project.Server.Models;
 using Project.Shared.Domains;
 using System;
@@ -35,5 +36,25 @@ namespace Project.Server.Data
 
         public DbSet<Payment> Payments { get; set; }
 
+        public DbSet<Country> Country { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.ApplyConfiguration(new AttractionSeedConfiguration());
+
+            builder.ApplyConfiguration(new CountrySeedConfiguration());
+
+            builder.ApplyConfiguration(new HotelSeedConfiguration());
+
+            builder.ApplyConfiguration(new LocationSeedConfiguration());
+
+            builder.ApplyConfiguration(new RoleSeedConfiguration());
+
+            builder.ApplyConfiguration(new UserRoleSeedConfiguration());
+
+            builder.ApplyConfiguration(new UserSeedConfiguration());
+        }
     }
 }
