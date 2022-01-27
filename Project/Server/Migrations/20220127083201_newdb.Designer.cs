@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project.Server.Data;
 
-namespace Project.Server.Data.Migrations
+namespace Project.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220127034040_AddedDefaultDataAndUser")]
-    partial class AddedDefaultDataAndUser
+    [Migration("20220127083201_newdb")]
+    partial class newdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
