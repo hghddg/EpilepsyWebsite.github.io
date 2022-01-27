@@ -35,5 +35,7 @@ namespace Project.Server.Data
 
         public DbSet<Payment> Payments { get; set; }
 
+        public DbSet<Project.Shared.Domains.Country> Country { get; set; }
+
     }
 }
