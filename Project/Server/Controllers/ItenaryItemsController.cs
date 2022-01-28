@@ -15,7 +15,7 @@ namespace Project.Server.Controllers
     [ApiController]
     public class ItenaryItemsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        
 
         private readonly IUnitOfWork _unitOfWork;
 
@@ -28,23 +28,24 @@ namespace Project.Server.Controllers
 
         // GET: api/ItenaryItems
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ItenaryItem>>> GetItenaryItems()
+        public async Task<ActionResult> GetItenaryItems()
         {
-            return await _context.ItenaryItems.ToListAsync();
+            var itenaryitems = await _unitOfWork.ItenaryItems.GetAll();
+            return Ok(itenaryitems);
         }
 
         // GET: api/ItenaryItems/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ItenaryItem>> GetItenaryItem(int id)
+        public async Task<ActionResult> GetItenaryItem(int id)
         {
-            var itenaryItem = await _context.ItenaryItems.FindAsync(id);
+            var itenaryItem = await _unitOfWork.ItenaryItems.Get(q => q.Id == id);
 
             if (itenaryItem == null)
             {
                 return NotFound();
             }
 
-            return itenaryItem;
+            return Ok(itenaryItem);
         }
 
         // PUT: api/ItenaryItems/5
@@ -57,15 +58,15 @@ namespace Project.Server.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(itenaryItem).State = EntityState.Modified;
+            _unitOfWork.ItenaryItems.Update(itenaryItem);
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _unitOfWork.Save(HttpContext);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ItenaryItemExists(id))
+                if (!await ItenaryItemExists(id))
                 {
                     return NotFound();
                 }
@@ -83,8 +84,8 @@ namespace Project.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<ItenaryItem>> PostItenaryItem(ItenaryItem itenaryItem)
         {
-            _context.ItenaryItems.Add(itenaryItem);
-            await _context.SaveChangesAsync();
+            await  _unitOfWork.ItenaryItems.Insert(itenaryItem);
+            await _unitOfWork.Save(HttpContext);
 
             return CreatedAtAction("GetItenaryItem", new { id = itenaryItem.Id }, itenaryItem);
         }
@@ -93,21 +94,22 @@ namespace Project.Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteItenaryItem(int id)
         {
-            var itenaryItem = await _context.ItenaryItems.FindAsync(id);
+            var itenaryItem = await _unitOfWork.ItenaryItems.Get(q => q.Id == id);
             if (itenaryItem == null)
             {
                 return NotFound();
             }
 
-            _context.ItenaryItems.Remove(itenaryItem);
-            await _context.SaveChangesAsync();
+            await _unitOfWork.ItenaryItems.Delete(id);
+            await _unitOfWork.Save(HttpContext);
 
             return NoContent();
         }
 
-        private bool ItenaryItemExists(int id)
+        private async Task<bool> ItenaryItemExists(int id)
         {
-            return _context.ItenaryItems.Any(e => e.Id == id);
+            var itenaryItem = await _unitOfWork.ItenaryItems.Get(q => q.Id == id);
+            return itenaryItem != null;
         }
     }
 }

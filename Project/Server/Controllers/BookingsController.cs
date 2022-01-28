@@ -15,7 +15,7 @@ namespace Project.Server.Controllers
     [ApiController]
     public class BookingsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+
         private readonly IUnitOfWork _unitOfWork;
 
         public BookingsController(IUnitOfWork unitOfWork)
@@ -27,23 +27,24 @@ namespace Project.Server.Controllers
 
         // GET: api/Bookings
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Booking>>> GetBoookings()
+        public async Task<ActionResult> GetBoookings()
         {
-            return await _context.Boookings.ToListAsync();
+            var bookings = await _unitOfWork.Bookings.GetAll();
+            return Ok(bookings);
         }
 
         // GET: api/Bookings/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Booking>> GetBooking(int id)
+        public async Task<ActionResult> GetBooking(int id)
         {
-            var booking = await _context.Boookings.FindAsync(id);
+            var booking = await _unitOfWork.Bookings.Get(q => q.Id == id);
 
             if (booking == null)
             {
                 return NotFound();
             }
 
-            return booking;
+            return Ok(booking);
         }
 
         // PUT: api/Bookings/5
@@ -56,15 +57,15 @@ namespace Project.Server.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(booking).State = EntityState.Modified;
+            _unitOfWork.Bookings.Update(booking);
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _unitOfWork.Save(HttpContext);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BookingExists(id))
+                if (!await BookingExists(id))
                 {
                     return NotFound();
                 }
@@ -82,8 +83,8 @@ namespace Project.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<Booking>> PostBooking(Booking booking)
         {
-            _context.Boookings.Add(booking);
-            await _context.SaveChangesAsync();
+            await _unitOfWork.Bookings.Insert(booking);
+            await _unitOfWork.Save(HttpContext);
 
             return CreatedAtAction("GetBooking", new { id = booking.Id }, booking);
         }
@@ -92,21 +93,22 @@ namespace Project.Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBooking(int id)
         {
-            var booking = await _context.Boookings.FindAsync(id);
+            var booking = await _unitOfWork.Bookings.Get(q => q.Id == id);
             if (booking == null)
             {
                 return NotFound();
             }
 
-            _context.Boookings.Remove(booking);
-            await _context.SaveChangesAsync();
+            await _unitOfWork.Bookings.Delete(id);
+            await _unitOfWork.Save(HttpContext);
 
             return NoContent();
         }
 
-        private bool BookingExists(int id)
+        private async Task<bool> BookingExists(int id)
         {
-            return _context.Boookings.Any(e => e.Id == id);
+           var booking = await _unitOfWork.Bookings.Get(q => q.Id == id);
+            return booking != null;
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Project.Server.Controllers
     [ApiController]
     public class LocationsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        
 
         private readonly IUnitOfWork _unitOfWork;
 
@@ -28,23 +28,24 @@ namespace Project.Server.Controllers
 
         // GET: api/Locations
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Location>>> GetLocations()
+        public async Task<ActionResult> GetLocations()
         {
-            return await _context.Locations.ToListAsync();
+            var locations = await _unitOfWork.Locations.GetAll();
+            return Ok(locations);
         }
 
         // GET: api/Locations/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Location>> GetLocation(int id)
+        public async Task<ActionResult> GetLocation(int id)
         {
-            var location = await _context.Locations.FindAsync(id);
+            var location = await _unitOfWork.Locations.Get(q => q.Id == id);
 
             if (location == null)
             {
                 return NotFound();
             }
 
-            return location;
+            return Ok(location);
         }
 
         // PUT: api/Locations/5
@@ -57,15 +58,15 @@ namespace Project.Server.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(location).State = EntityState.Modified;
+            _unitOfWork.Locations.Update(location);
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _unitOfWork.Save(HttpContext);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!LocationExists(id))
+                if (!await LocationExists(id))
                 {
                     return NotFound();
                 }
@@ -83,8 +84,8 @@ namespace Project.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<Location>> PostLocation(Location location)
         {
-            _context.Locations.Add(location);
-            await _context.SaveChangesAsync();
+            await _unitOfWork.Locations.Insert(location);
+            await _unitOfWork.Save(HttpContext);
 
             return CreatedAtAction("GetLocation", new { id = location.Id }, location);
         }
@@ -93,21 +94,22 @@ namespace Project.Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteLocation(int id)
         {
-            var location = await _context.Locations.FindAsync(id);
+            var location = await _unitOfWork.Locations.Get(q => q.Id == id);
             if (location == null)
             {
                 return NotFound();
             }
 
-            _context.Locations.Remove(location);
-            await _context.SaveChangesAsync();
+            await _unitOfWork.Locations.Delete(id);
+            await _unitOfWork.Save(HttpContext);
 
             return NoContent();
         }
-
-        private bool LocationExists(int id)
+        
+        private async Task<bool> LocationExists(int id)
         {
-            return _context.Locations.Any(e => e.Id == id);
+            var location = await _unitOfWork.Locations.Get(q => q.Id == id);
+            return location != null;
         }
     }
 }

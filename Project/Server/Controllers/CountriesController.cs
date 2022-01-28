@@ -15,7 +15,6 @@ namespace Project.Server.Controllers
     [ApiController]
     public class CountriesController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
 
         private readonly IUnitOfWork _unitOfWork;
 
@@ -28,23 +27,24 @@ namespace Project.Server.Controllers
 
         // GET: api/Countries
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Country>>> GetCountry()
+        public async Task<ActionResult> GetCountry()
         {
-            return await _context.Country.ToListAsync();
+            var country = await _unitOfWork.Countries.GetAll();
+            return Ok(country);
         }
 
         // GET: api/Countries/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Country>> GetCountry(int id)
+        public async Task<ActionResult> GetCountry(int id)
         {
-            var country = await _context.Country.FindAsync(id);
+            var country = await _unitOfWork.Countries.Get(q => q.Id == id);
 
             if (country == null)
             {
                 return NotFound();
             }
 
-            return country;
+            return Ok(country);
         }
 
         // PUT: api/Countries/5
@@ -57,15 +57,15 @@ namespace Project.Server.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(country).State = EntityState.Modified;
+            _unitOfWork.Countries.Update(country);
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _unitOfWork.Save(HttpContext);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CountryExists(id))
+                if (!await CountryExists(id))
                 {
                     return NotFound();
                 }
@@ -83,8 +83,8 @@ namespace Project.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<Country>> PostCountry(Country country)
         {
-            _context.Country.Add(country);
-            await _context.SaveChangesAsync();
+            await _unitOfWork.Countries.Insert(country); 
+            await _unitOfWork.Save(HttpContext);
 
             return CreatedAtAction("GetCountry", new { id = country.Id }, country);
         }
@@ -93,21 +93,22 @@ namespace Project.Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCountry(int id)
         {
-            var country = await _context.Country.FindAsync(id);
+            var country = await _unitOfWork.Countries.Get(q => q.Id == id);
             if (country == null)
             {
                 return NotFound();
             }
 
-            _context.Country.Remove(country);
-            await _context.SaveChangesAsync();
+            await _unitOfWork.Countries.Delete(id);
+            await _unitOfWork.Save(HttpContext);
 
             return NoContent();
         }
 
-        private bool CountryExists(int id)
+        private async Task<bool> CountryExists(int id)
         {
-            return _context.Country.Any(e => e.Id == id);
+            var country = await _unitOfWork.Countries.Get(q => q.Id == id);
+            return country != null;
         }
     }
 }

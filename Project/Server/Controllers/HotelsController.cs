@@ -15,7 +15,6 @@ namespace Project.Server.Controllers
     [ApiController]
     public class HotelsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
 
         private readonly IUnitOfWork _unitOfWork;
 
@@ -28,23 +27,24 @@ namespace Project.Server.Controllers
 
         // GET: api/Hotels
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Hotel>>> GetHotels()
+        public async Task<ActionResult> GetHotels()
         {
-            return await _context.Hotels.ToListAsync();
+            var hotels = await _unitOfWork.Hotels.GetAll();
+            return Ok(hotels);
         }
 
         // GET: api/Hotels/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Hotel>> GetHotel(int id)
+        public async Task<ActionResult> GetHotel(int id)
         {
-            var hotel = await _context.Hotels.FindAsync(id);
+            var hotel = await _unitOfWork.Hotels.Get(q => q.Id == id);
 
             if (hotel == null)
             {
                 return NotFound();
             }
 
-            return hotel;
+            return Ok(hotel);
         }
 
         // PUT: api/Hotels/5
@@ -57,15 +57,15 @@ namespace Project.Server.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(hotel).State = EntityState.Modified;
+            _unitOfWork.Hotels.Update(hotel);
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _unitOfWork.Save(HttpContext);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!HotelExists(id))
+                if (!await HotelExists(id))
                 {
                     return NotFound();
                 }
@@ -83,8 +83,8 @@ namespace Project.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<Hotel>> PostHotel(Hotel hotel)
         {
-            _context.Hotels.Add(hotel);
-            await _context.SaveChangesAsync();
+            await _unitOfWork.Hotels.Insert(hotel);
+            await _unitOfWork.Save(HttpContext);
 
             return CreatedAtAction("GetHotel", new { id = hotel.Id }, hotel);
         }
@@ -93,21 +93,22 @@ namespace Project.Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteHotel(int id)
         {
-            var hotel = await _context.Hotels.FindAsync(id);
+            var hotel = await _unitOfWork.Hotels.Get(q => q.Id == id);
             if (hotel == null)
             {
                 return NotFound();
             }
 
-            _context.Hotels.Remove(hotel);
-            await _context.SaveChangesAsync();
+            await _unitOfWork.Hotels.Delete(id);
+            await _unitOfWork.Save(HttpContext);
 
             return NoContent();
         }
 
-        private bool HotelExists(int id)
+        private async Task<bool> HotelExists(int id)
         {
-            return _context.Hotels.Any(e => e.Id == id);
+            var hotel = await _unitOfWork.Hotels.Get(q => q.Id == id);
+            return hotel != null;
         }
     }
 }

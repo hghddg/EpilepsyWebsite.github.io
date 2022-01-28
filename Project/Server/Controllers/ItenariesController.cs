@@ -15,7 +15,7 @@ namespace Project.Server.Controllers
     [ApiController]
     public class ItenariesController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        
         private readonly IUnitOfWork _unitOfWork;
 
         public ItenariesController(IUnitOfWork unitOfWork)
@@ -27,23 +27,24 @@ namespace Project.Server.Controllers
 
         // GET: api/Itenaries
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Itenary>>> GetItenaries()
+        public async Task<ActionResult> GetItenaries()
         {
-            return await _context.Itenaries.ToListAsync();
+            var itenaries = await _unitOfWork.Itenaries.GetAll();
+            return Ok(itenaries);
         }
 
         // GET: api/Itenaries/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Itenary>> GetItenary(int id)
+        public async Task<ActionResult> GetItenary(int id)
         {
-            var itenary = await _context.Itenaries.FindAsync(id);
+            var itenary = await _unitOfWork.Itenaries.Get(q => q.Id == id);
 
             if (itenary == null)
             {
                 return NotFound();
             }
 
-            return itenary;
+            return Ok(itenary);
         }
 
         // PUT: api/Itenaries/5
@@ -56,15 +57,15 @@ namespace Project.Server.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(itenary).State = EntityState.Modified;
+            _unitOfWork.Itenaries.Update(itenary);
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _unitOfWork.Save(HttpContext);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ItenaryExists(id))
+                if (!await ItenaryExists(id))
                 {
                     return NotFound();
                 }
@@ -82,8 +83,8 @@ namespace Project.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<Itenary>> PostItenary(Itenary itenary)
         {
-            _context.Itenaries.Add(itenary);
-            await _context.SaveChangesAsync();
+            await _unitOfWork.Itenaries.Insert(itenary);
+            await _unitOfWork.Save(HttpContext);
 
             return CreatedAtAction("GetItenary", new { id = itenary.Id }, itenary);
         }
@@ -92,21 +93,22 @@ namespace Project.Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteItenary(int id)
         {
-            var itenary = await _context.Itenaries.FindAsync(id);
+            var itenary = await _unitOfWork.Itenaries.Get(q => q.Id == id);
             if (itenary == null)
             {
                 return NotFound();
             }
 
-            _context.Itenaries.Remove(itenary);
-            await _context.SaveChangesAsync();
+            await _unitOfWork.Itenaries.Delete(id);
+            await _unitOfWork.Save(HttpContext);
 
             return NoContent();
         }
 
-        private bool ItenaryExists(int id)
+        private async Task<bool> ItenaryExists(int id)
         {
-            return _context.Itenaries.Any(e => e.Id == id);
+            var itenary = await _unitOfWork.Itenaries.Get(q => q.Id == id);
+            return itenary != null;
         }
     }
 }

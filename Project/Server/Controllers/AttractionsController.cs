@@ -15,7 +15,7 @@ namespace Project.Server.Controllers
     [ApiController]
     public class AttractionsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        //private readonly ApplicationDbContext _context;
         private readonly IUnitOfWork _unitOfWork;
 
         public AttractionsController(IUnitOfWork unitOfWork)
@@ -26,17 +26,19 @@ namespace Project.Server.Controllers
         }
 
         // GET: api/Attractions
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Attraction>>> GetAttractions()
+        [HttpGet]        
+        public async Task<ActionResult> GetAttractions()
         {
-            return await _context.Attractions.ToListAsync();
+            var attractions = await _unitOfWork.Attractions.GetAll();
+            return Ok(attractions);
         }
+
 
         // GET: api/Attractions/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Attraction>> GetAttraction(int id)
         {
-            var attraction = await _context.Attractions.FindAsync(id);
+            var attraction = await _unitOfWork.Attractions.Get(q => q.Id == id);
 
             if (attraction == null)
             {
@@ -56,15 +58,15 @@ namespace Project.Server.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(attraction).State = EntityState.Modified;
+            _unitOfWork.Attractions.Update(attraction);
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _unitOfWork.Save(HttpContext);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AttractionExists(id))
+                if (!await AttractionExists(id))
                 {
                     return NotFound();
                 }
@@ -82,8 +84,8 @@ namespace Project.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<Attraction>> PostAttraction(Attraction attraction)
         {
-            _context.Attractions.Add(attraction);
-            await _context.SaveChangesAsync();
+            await _unitOfWork.Attractions.Insert(attraction);
+            await _unitOfWork.Save(HttpContext);
 
             return CreatedAtAction("GetAttraction", new { id = attraction.Id }, attraction);
         }
@@ -92,21 +94,22 @@ namespace Project.Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAttraction(int id)
         {
-            var attraction = await _context.Attractions.FindAsync(id);
+            var attraction = await _unitOfWork.Attractions.Get(q => q.Id == id);
             if (attraction == null)
             {
                 return NotFound();
             }
 
-            _context.Attractions.Remove(attraction);
-            await _context.SaveChangesAsync();
+            await _unitOfWork.Attractions.Delete(id);
+            await _unitOfWork.Save(HttpContext);
 
             return NoContent();
         }
 
-        private bool AttractionExists(int id)
+        private async Task<bool> AttractionExists(int id)
         {
-            return _context.Attractions.Any(e => e.Id == id);
+            var attraction = await _unitOfWork.Attractions.Get(q => q.Id == id);
+            return attraction != null;
         }
     }
 }
