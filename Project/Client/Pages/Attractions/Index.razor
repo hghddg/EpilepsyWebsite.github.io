@@ -65,7 +65,7 @@ else
 
     protected async override Task OnInitializedAsync()
     {
-        Attractions = await _client.GetFromJsonAsync<List<Attraction>>($"{Endpoint.BookingsEndpoint}");
+        Attractions = await _client.GetFromJsonAsync<List<Attraction>>($"{Endpoint.AttractionsEndpoint}");
     }
 
     async Task Delete(int attractionId)
