@@ -3,29 +3,82 @@
 @inject IJSRuntime js
 @attribute [Authorize]
 
-<h3>Attrations</h3>
+<h3 class="card-title">Attractions For Itenary</h3>
+<br />
 
+<a href="/attractions/create" class="btn btn-secondary">
+    <span class="oi oi-plus"></span>
+    Create New Attraction
+</a>
+<br />
+<br />
 
+@if (Attractions == null)
+{
+
+    <div class="alert alert-info">Loading Attractions...</div>
+
+}
+else
+{
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>Attraction Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Place</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var attraction in Attractions)
+            {
+                    <tr>
+                        <td>@attraction.Id</td>
+                        <td>@attraction.Name</td>
+                        <td>@attraction.Description</td>
+                        <td>@attraction.ALocation</td>
+                        <td>@attraction.Price</td>
+                        <td>
+                            <a href="/attractions/view/@attraction.Id" class="btn btn-primary">
+                                <span class="oi oi-book"></span>
+                            </a>
+                            <a href="/attractions/edit/@attraction.Id" class="btn btn-primary">
+                                <span class="oi oi-pencil"></span>
+                            </a>
+                            <button class="btn btn-danger" @onclick="@(()=>Delete (attraction.Id))">
+                                <span class="oi oi-delete"></span>
+                            </button>
+                        </td>
+                    </tr>
+            }
+
+            
+        </tbody>
+    </table>
+}
 
 @code {
     private List<Attraction> Attractions;
-   
+
     protected async override Task OnInitializedAsync()
     {
-        Attractions = await _client.GetFromJsonAsync<List<Attraction>>($"{Endpoints.BookingsEndpoint}");
+        Attractions = await _client.GetFromJsonAsync<List<Attraction>>($"{Endpoint.BookingsEndpoint}");
     }
 
-    async Task Delete(int bookingId)
+    async Task Delete(int attractionId)
     {
-        var booking = Attractions.First(q => q.Id == attractionId);
+        var attraction = Attractions.First(q => q.Id == attractionId);
         var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {attraction.Id}?");
         if (confirm)
         {
-            await _client.DeleteAsync($"{Endpoints.AttractionsEndpoint}/{attarctionId}");
+            await _client.DeleteAsync($"{Endpoint.AttractionsEndpoint}/{attractionId}");
             await OnInitializedAsync();
 
         }
     }
 
 
-}
+            }

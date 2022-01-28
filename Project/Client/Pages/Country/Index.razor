@@ -1,0 +1,80 @@
+﻿@page "/countries/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+
+<h3 class="card-title">Country For Itenary</h3>
+<br />
+
+<a href="/countries/create" class="btn btn-secondary">
+    <span class="oi oi-plus"></span>
+    Create New Country
+</a>
+<br />
+<br />
+
+@if (Countries == null)
+{
+
+    <div class="alert alert-info">Loading Countries...</div>
+
+}
+else
+{
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>Country Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var country in Countries)
+            {
+                <tr>
+                    <td>@country.Id</td>
+                    <td>@country.Name</td>
+                    <td>@country.Detail</td>
+                    <td>
+                        <a href="/attractions/view/@country.Id" class="btn btn-primary">
+                            <span class="oi oi-book"></span>
+                        </a>
+                        <a href="/attractions/edit/@country.Id" class="btn btn-primary">
+                            <span class="oi oi-pencil"></span>
+                        </a>
+                        <button class="btn btn-danger" @onclick="@(()=>Delete (country.Id))">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </td>
+                </tr>
+            }
+
+
+        </tbody>
+    </table>
+}
+
+@code {
+
+    private List<Country> Countries;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Countries = await _client.GetFromJsonAsync<List<Country>>($"{Endpoint.CountryEndpoint}");
+    }
+
+    async Task Delete(int countryId)
+    {
+        var country = Countries.First(q => q.Id == countryId);
+        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {country.Id}?");
+        if (confirm)
+        {
+            await _client.DeleteAsync($"{Endpoint.CountryEndpoint}/{countryId}");
+            await OnInitializedAsync();
+
+        }
+
+    }
+}
