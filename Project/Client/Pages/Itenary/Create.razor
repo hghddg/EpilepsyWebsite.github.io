@@ -1,0 +1,34 @@
+﻿@page "/itineraries/create/"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Create New Itineraries</h3>
+<hr />
+<br />
+
+<EditForm Model="@itenary" OnValidSubmit="CreateItenary">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Total Price: </label>
+        <div>
+            <InputNumber @bind-Value="@itenary.TotalPrice" class="form-control" />
+            <ValidationMessage For="@(() => itenary.TotalPrice)" />
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success btn-block">
+        Create Itenary
+    </button>
+</EditForm>
+
+@code {
+
+    Itenary itenary = new Itenary();
+
+    private async Task CreateItenary()
+    {
+        await _client.PostAsJsonAsync(Endpoint.ItinerariesEndpoint, itenary);
+        _navManager.NavigateTo("/itineraries/");
+    }
+}

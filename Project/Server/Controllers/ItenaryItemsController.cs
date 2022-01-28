@@ -30,7 +30,8 @@ namespace Project.Server.Controllers
         [HttpGet]
         public async Task<ActionResult> GetItenaryItems()
         {
-            var itenaryitems = await _unitOfWork.ItenaryItems.GetAll();
+            var itenaryitems = await _unitOfWork.ItenaryItems.GetAll(includes: q => q.Include(x => x.Country).Include(x => x.Location).Include(x => x.Attraction).Include(x => x.Hotel));
+
             return Ok(itenaryitems);
         }
 

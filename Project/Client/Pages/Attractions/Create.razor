@@ -16,16 +16,22 @@
             <InputText @bind-Value="@attraction.Name" class="form-control" />
             <ValidationMessage For="@(() => attraction.Name)" />
         </div>
+    </div>
+    <div class="form-group">
         <label>Description: </label>
         <div>
             <InputText @bind-Value="@attraction.Description" class="form-control" />
             <ValidationMessage For="@(() => attraction.Description)" />
         </div>
+    </div>
+    <div class="form-group">
         <label>Place: </label>
         <div>
             <InputText @bind-Value="@attraction.ALocation" class="form-control" />
             <ValidationMessage For="@(() => attraction.ALocation)" />
         </div>
+    </div>
+    <div class="form-group">
         <label>Price: </label>
         <div>
             <InputNumber @bind-Value="@attraction.Price" class="form-control" />

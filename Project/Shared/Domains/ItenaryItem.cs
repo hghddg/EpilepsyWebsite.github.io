@@ -12,11 +12,19 @@ namespace Project.Shared.Domains
 
         public virtual Country Country { get; set; }
 
+        public int CountryId { get; set; }
+
         public virtual Location Location { get; set; }
+
+        public int LocationId { get; set; }
 
         public virtual Attraction Attraction { get; set; }
 
+        public int AttractionId { get; set; }
+
         public virtual Hotel Hotel { get; set; }
+
+        public int HotelId { get; set; }
 
         public virtual Itenary Itenary { get; set; }
 
