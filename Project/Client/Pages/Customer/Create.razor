@@ -1,0 +1,62 @@
+﻿@page "/customers/create/"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Create New Customers</h3>
+<hr />
+<br />
+
+<EditForm Model="@customer" OnValidSubmit="CreateCustomer">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Name: </label>
+        <div>
+            <InputText @bind-Value="@customer.Name" class="form-control" />
+            <ValidationMessage For="@(() => customer.Name)" />
+        </div>
+        <label>Payment: </label>
+        <div>
+            <InputNumber @bind-Value="@customer.Payment" class="form-control" />
+            <ValidationMessage For="@(() => customer.Payment)" />
+        </div>
+        <label>Log in: </label>
+        <div>
+            <InputText @bind-Value="@customer.Login" class="form-control" />
+            <ValidationMessage For="@(() => customer.Login)" />
+        </div>
+        <label>Password: </label>
+        <div>
+            <InputText @bind-Value="@customer.Password" class="form-control" />
+            <ValidationMessage For="@(() => customer.Password)" />
+        </div>
+        <label>Contact: </label>
+        <div>
+            <InputText @bind-Value="@customer.Contact" class="form-control" />
+            <ValidationMessage For="@(() => customer.Contact)" />
+        </div>
+        <label>Staff: </label>
+        <div>
+            <InputText @bind-Value="@customer.Staff" class="form-control" />
+            <ValidationMessage For="@(() => customer.Staff)" />
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success btn-block">
+        Create Customer
+    </button>
+</EditForm>
+
+
+
+@code {
+
+    Customer customer = new Customer();
+
+    private async Task CreateCustomer()
+    {
+        await _client.PostAsJsonAsync(Endpoint.CustomersEndpoint, customer);
+        _navManager.NavigateTo("/customers/");
+    }
+
+}

@@ -1,0 +1,35 @@
+﻿@page "/bookings/create/"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Create New Bookings</h3>
+<hr />
+<br />
+
+<EditForm Model="@booking" OnValidSubmit="CreateBooking">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Name: </label>
+        <div>
+            <InputText @bind-Value="@booking.Name" class="form-control" />
+            <ValidationMessage For="@(() => booking.Name)" />
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success btn-block">
+        Create Booking
+    </button>
+</EditForm>
+
+
+    @code {
+        Booking booking = new Booking();
+
+        private async Task CreateBooking()
+        {
+            await _client.PostAsJsonAsync(Endpoint.BookingsEndpoint, booking);
+            _navManager.NavigateTo("/bookings/");
+        }
+
+    }

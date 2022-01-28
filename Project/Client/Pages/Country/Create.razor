@@ -1,0 +1,43 @@
+﻿@page "/countries/create/"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+
+<h3 class="card-title">Create New Countries</h3>
+<hr />
+<br />
+
+
+<EditForm Model="@country" OnValidSubmit="CreateCountry">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Name: </label>
+        <div>
+            <InputText @bind-Value="@country.Name" class="form-control" />
+            <ValidationMessage For="@(() => country.Name)" />
+        </div>
+        <label>Description: </label>
+        <div>
+            <InputText @bind-Value="@country.Name" class="form-control" />
+            <ValidationMessage For="@(() => country.Detail)" />
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success btn-block">
+        Create Country
+    </button>
+</EditForm>
+
+
+@code {
+
+    Country country = new Country();
+
+    private async Task CreateCountry()
+    {
+        await _client.PostAsJsonAsync(Endpoint.CountryEndpoint, country);
+        _navManager.NavigateTo("/countries/");
+    }
+
+}

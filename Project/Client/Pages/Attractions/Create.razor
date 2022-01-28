@@ -1,0 +1,51 @@
+﻿@page "/attractions/create/"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Create New Attractions</h3>
+<hr />
+<br />
+
+<EditForm Model="@attraction" OnValidSubmit="CreateAttraction">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Name: </label>
+        <div>
+            <InputText @bind-Value="@attraction.Name" class="form-control" />
+            <ValidationMessage For="@(() => attraction.Name)" />
+        </div>
+        <label>Description: </label>
+        <div>
+            <InputText @bind-Value="@attraction.Description" class="form-control" />
+            <ValidationMessage For="@(() => attraction.Description)" />
+        </div>
+        <label>Place: </label>
+        <div>
+            <InputText @bind-Value="@attraction.ALocation" class="form-control" />
+            <ValidationMessage For="@(() => attraction.ALocation)" />
+        </div>
+        <label>Price: </label>
+        <div>
+            <InputNumber @bind-Value="@attraction.Price" class="form-control" />
+            <ValidationMessage For="@(() => attraction.Price)" />
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success btn-block">
+        Create Attraction
+    </button>
+</EditForm>
+
+
+
+    @code {
+        Attraction attraction = new Attraction();
+
+        private async Task CreateAttraction()
+        {
+            await _client.PostAsJsonAsync(Endpoint.AttractionsEndpoint, attraction);
+            _navManager.NavigateTo("/attractions/");
+        }
+
+    }
