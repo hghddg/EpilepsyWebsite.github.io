@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project.Server.Data;
+using Project.Server.IRepository;
 using Project.Shared.Domains;
 
 namespace Project.Server.Controllers
@@ -16,9 +17,13 @@ namespace Project.Server.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public PaymentsController(ApplicationDbContext context)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public PaymentsController(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            //Refactored
+            //_context = context
+            _unitOfWork = unitOfWork;
         }
 
         // GET: api/Payments

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project.Server.Data;
+using Project.Server.IRepository;
 using Project.Shared.Domains;
 
 namespace Project.Server.Controllers
@@ -15,10 +16,13 @@ namespace Project.Server.Controllers
     public class ItenariesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public ItenariesController(ApplicationDbContext context)
+        public ItenariesController(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            //Refactored
+            //_context = context
+            _unitOfWork = unitOfWork;
         }
 
         // GET: api/Itenaries

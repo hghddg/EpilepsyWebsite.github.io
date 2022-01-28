@@ -8,9 +8,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Project.Server.Data;
-
+using Project.Server.IRepository;
 using Project.Server.Models;
-
+using Project.Server.Repository;
 using System.Linq;
 
 namespace Project.Server
@@ -28,6 +28,7 @@ namespace Project.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -43,7 +44,7 @@ namespace Project.Server
             services.AddAuthentication()
                 .AddIdentityServerJwt();
 
-            
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
