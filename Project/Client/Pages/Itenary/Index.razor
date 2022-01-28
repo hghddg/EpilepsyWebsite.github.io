@@ -1,5 +1,76 @@
-﻿<h3>Index</h3>
+﻿@page "/itineraries/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+
+<h3 class="card-title">Itenary Price</h3>
+<br />
+
+
+
+@if (Itineraries == null)
+{
+
+    <div class="alert alert-info">Loading Itenary Price...</div>
+
+}
+
+else
+{
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>Itenary Id</th>
+                <th>Total Price</th>
+                <th>Payment</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var itenary in Itineraries)
+            {
+                <tr>
+                    <td>@itenary.Id</td>
+                    <td>@itenary.TotalPrice</td>
+                    <td>
+                        <a href="/attractions/view/@itenary.Id" class="btn btn-primary">
+                            <span class="oi oi-book"></span>
+                        </a>
+                        <a href="/attractions/edit/@itenary.Id" class="btn btn-primary">
+                            <span class="oi oi-pencil"></span>
+                        </a>
+                        <button class="btn btn-danger" @onclick="@(()=>Delete (itenary.Id))">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </td>
+                </tr>
+            }
+
+
+        </tbody>
+    </table>
+}
 
 @code {
+
+    private List<Itenary> Itineraries;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Itineraries = await _client.GetFromJsonAsync<List<Itenary>>($"{Endpoint.ItinerariesEndpoint}");
+    }
+
+    async Task Delete(int itenaryId)
+    {
+        var itenary = Itineraries.First(q => q.Id == itenaryId);
+        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {itenary.Id}?");
+        if (confirm)
+        {
+            await _client.DeleteAsync($"{Endpoint.ItinerariesEndpoint}/{itenaryId}");
+            await OnInitializedAsync();
+
+        }
+
+    }
 
 }
