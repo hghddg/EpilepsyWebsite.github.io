@@ -85,7 +85,7 @@ namespace Project.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<ItenaryItem>> PostItenaryItem(ItenaryItem itenaryItem)
         {
-            await  _unitOfWork.ItenaryItems.Insert(itenaryItem);
+            await _unitOfWork.ItenaryItems.Insert(itenaryItem);
             await _unitOfWork.Save(HttpContext);
 
             return CreatedAtAction("GetItenaryItem", new { id = itenaryItem.Id }, itenaryItem);
