@@ -6,21 +6,7 @@
 <hr />
 <br />
 
-<EditForm Model="@itenary" OnValidSubmit="CreateItenary">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-
-    <div class="form-group">
-        <label>Total Price: </label>
-        <div>
-            <InputNumber @bind-Value="@itenary.TotalPrice" class="form-control" />
-            <ValidationMessage For="@(() => itenary.TotalPrice)" />
-        </div>
-    </div>
-    <button type="submit" class="btn btn-success btn-block">
-        Create Itenary
-    </button>
-</EditForm>
+<FormComponent ButtonText="Create Itenary" itenary="itenary" OnValidSubmit="@CreateItenary" />
 
 @code {
 

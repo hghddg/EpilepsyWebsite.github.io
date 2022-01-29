@@ -1,0 +1,50 @@
+﻿<EditForm Model="@hotel" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Name: </label>
+        <div>
+            <InputText @bind-Value="@hotel.Name" class="form-control" />
+            <ValidationMessage For="@(() => hotel.Name)" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Rating: </label>
+        <div>
+            <InputNumber @bind-Value="@hotel.Rating" class="form-control" />
+            <ValidationMessage For="@(() => hotel.Rating)" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Contact: </label>
+        <div>
+            <InputText @bind-Value="@hotel.Contact" class="form-control" />
+            <ValidationMessage For="@(() => hotel.Contact)" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Place: </label>
+        <div>
+            <InputText @bind-Value="@hotel.HLocation" class="form-control" />
+            <ValidationMessage For="@(() => hotel.HLocation)" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Price: </label>
+        <div>
+            <InputNumber @bind-Value="@hotel.Price" class="form-control" />
+            <ValidationMessage For="@(() => hotel.Price)" />
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success btn-block">
+        @ButtonText
+    </button>
+    <BackToList Target="hotels" />
+</EditForm>
+
+@code {
+    [Parameter] public Hotel hotel { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Save";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+}

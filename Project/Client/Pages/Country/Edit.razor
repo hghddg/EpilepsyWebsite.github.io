@@ -1,0 +1,25 @@
+﻿@page "/countries/edit/{id:int}"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3>Edit Country</h3>
+
+<FormComponent ButtonText="Update" OnValidSubmit="EditCountry" country="country" />
+
+@code {
+
+    [Parameter] public int id { get; set; }
+    Country country = new Country();
+
+    protected async override Task OnParametersSetAsync()
+    {
+        country = await _client.GetFromJsonAsync<Country>($"{Endpoint.CountryEndpoint}/{id}");
+    }
+
+    async Task EditCountry()
+    {
+        await _client.PutAsJsonAsync($"{Endpoint.CountryEndpoint}/{id}", country);
+        _navManager.NavigateTo("/countries/");
+    }
+
+}

@@ -1,0 +1,25 @@
+﻿@page "/itenaryitems/edit/{id:int}"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3>Edit Itenary Item</h3>
+
+<FormComponent ButtonText="Update" OnValidSubmit="EditItenaryItem" itenaryItem="itenaryItem" />
+
+@code {
+
+    [Parameter] public int id { get; set; }
+    ItenaryItem itenaryItem = new ItenaryItem();
+
+    protected async override Task OnParametersSetAsync()
+    {
+        itenaryItem = await _client.GetFromJsonAsync<ItenaryItem>($"{Endpoint.ItenaryItemsEndpoint}/{id}");
+    }
+
+    async Task EditItenaryItem()
+    {
+        await _client.PutAsJsonAsync($"{Endpoint.ItenaryItemsEndpoint}/{id}", itenaryItem);
+        _navManager.NavigateTo("/itenaryitems/");
+    }
+
+}

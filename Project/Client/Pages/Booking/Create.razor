@@ -6,21 +6,7 @@
 <hr />
 <br />
 
-<EditForm Model="@booking" OnValidSubmit="CreateBooking">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-
-    <div class="form-group">
-        <label>Name: </label>
-        <div>
-            <InputText @bind-Value="@booking.Name" class="form-control" />
-            <ValidationMessage For="@(() => booking.Name)" />
-        </div>
-    </div>
-    <button type="submit" class="btn btn-success btn-block">
-        Create Booking
-    </button>
-</EditForm>
+<FormComponent ButtonText="Create Booking" booking="booking" OnValidSubmit="@CreateBooking" />
 
 
     @code {

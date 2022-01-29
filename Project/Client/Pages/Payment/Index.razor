@@ -39,10 +39,10 @@ else
                     <td>@payment.Amount</td>
                     <td>@payment.Type</td>
                     <td>
-                        <a href="/attractions/view/@payment.Id" class="btn btn-primary">
+                        <a href="/payments/view/@payment.Id" class="btn btn-primary">
                             <span class="oi oi-book"></span>
                         </a>
-                        <a href="/attractions/edit/@payment.Id" class="btn btn-primary">
+                        <a href="/payments/edit/@payment.Id" class="btn btn-primary">
                             <span class="oi oi-pencil"></span>
                         </a>
                         <button class="btn btn-danger" @onclick="@(()=>Delete (payment.Id))">

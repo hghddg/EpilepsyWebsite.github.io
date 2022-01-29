@@ -46,10 +46,10 @@ else
                 <td>@hotel.HLocation</td>
                 <td>@hotel.Price</td>
                 <td>
-                    <a href="/attractions/view/@hotel.Id" class="btn btn-primary">
+                    <a href="/hotels/view/@hotel.Id" class="btn btn-primary">
                         <span class="oi oi-book"></span>
                     </a>
-                    <a href="/attractions/edit/@hotel.Id" class="btn btn-primary">
+                    <a href="/hotels/edit/@hotel.Id" class="btn btn-primary">
                         <span class="oi oi-pencil"></span>
                     </a>
                     <button class="btn btn-danger" @onclick="@(()=>Delete (hotel.Id))">

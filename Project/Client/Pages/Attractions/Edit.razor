@@ -1,11 +1,24 @@
-﻿@page "/attractions/edit/"
+﻿@page "/attractions/edit/{id:int}"
 @inject HttpClient _client
 @inject NavigationManager _navManager
 
+<h3>Edit Attraction</h3>
 
-
-
+<FormComponent ButtonText="Update" OnValidSubmit="EditAttraction" attraction="attraction" />
 
 @code {
 
+        [Parameter] public int id { get; set; }
+        Attraction attraction = new Attraction();
+
+    protected async override Task OnParametersSetAsync()
+    {
+        attraction = await _client.GetFromJsonAsync<Attraction>($"{Endpoint.AttractionsEndpoint}/{id}");
+    }
+
+    async Task EditAttraction()
+    {
+        await _client.PutAsJsonAsync($"{Endpoint.AttractionsEndpoint}/{id}", attraction);
+        _navManager.NavigateTo("/attractions/");
+    }
 }

@@ -38,10 +38,10 @@ else
                     <td>@country.Name</td>
                     <td>@country.Detail</td>
                     <td>
-                        <a href="/attractions/view/@country.Id" class="btn btn-primary">
+                        <a href="/countries/view/@country.Id" class="btn btn-primary">
                             <span class="oi oi-book"></span>
                         </a>
-                        <a href="/attractions/edit/@country.Id" class="btn btn-primary">
+                        <a href="/countries/edit/@country.Id" class="btn btn-primary">
                             <span class="oi oi-pencil"></span>
                         </a>
                         <button class="btn btn-danger" @onclick="@(()=>Delete (country.Id))">
@@ -68,7 +68,7 @@ else
     async Task Delete(int countryId)
     {
         var country = Countries.First(q => q.Id == countryId);
-        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {country.Id}?");
+        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {country.Name}?");
         if (confirm)
         {
             await _client.DeleteAsync($"{Endpoint.CountryEndpoint}/{countryId}");
