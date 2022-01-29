@@ -1,0 +1,19 @@
+﻿@page "/countries/view/{id:int}"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3>View</h3>
+
+<FormComponent country="country" Disabled="true" />
+
+@code {
+
+    [Parameter] public int id { get; set; }
+    Country country = new Country();
+
+    protected async override Task OnParametersSetAsync()
+    {
+        country = await _client.GetFromJsonAsync<Country>($"{Endpoint.CountryEndpoint}/{id}");
+    }
+
+}

@@ -3,91 +3,97 @@
 <EditForm Model="@itenaryitem" OnValidSubmit="@OnValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
+    <fieldset disbled="@Disabled">
 
-    <div class="form-group">
-        <label>Price: </label>
-        <div>
-            <InputNumber @bind-Value="@itenaryitem.Price" class="form-control" />
-            <ValidationMessage For="@(() => itenaryitem.Price)" />
+        <div class="form-group">
+            <label>Price: </label>
+            <div>
+                <InputNumber @bind-Value="@itenaryitem.Price" class="form-control" />
+                <ValidationMessage For="@(() => itenaryitem.Price)" />
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label>Country: </label>
-        <div>
-            <InputSelect @bind-Value="itenaryitem.CountryId" class="form-control">
-                <option value="">-- Select Country --</option>
-                @if (Countries != null)
-                {
-                    foreach (var country in Countries)
+        <div class="form-group">
+            <label>Country: </label>
+            <div>
+                <InputSelect @bind-Value="itenaryitem.CountryId" class="form-control">
+                    <option value="">-- Select Country --</option>
+                    @if (Countries != null)
                     {
-                        <option value="@country.Id">@country.Name</option>
+                        foreach (var country in Countries)
+                        {
+                            <option value="@country.Id">@country.Name</option>
+                        }
                     }
-                }
-            </InputSelect>
+                </InputSelect>
 
-            <ValidationMessage For="@(() => itenaryitem.CountryId)" />
+                <ValidationMessage For="@(() => itenaryitem.CountryId)" />
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <label>Place: </label>
-        <div>
-            <InputSelect @bind-Value="itenaryitem.LocationId" class="form-control">
-                <option value="">-- Select Location --</option>
-                @if (Locations != null)
-                {
-                    foreach (var location in Locations)
+        <div class="form-group">
+            <label>Place: </label>
+            <div>
+                <InputSelect @bind-Value="itenaryitem.LocationId" class="form-control">
+                    <option value="">-- Select Location --</option>
+                    @if (Locations != null)
                     {
-                        <option value="@location.Id">@location.Name</option>
+                        foreach (var location in Locations)
+                        {
+                            <option value="@location.Id">@location.Name</option>
+                        }
                     }
-                }
-            </InputSelect>
+                </InputSelect>
 
-            <ValidationMessage For="@(() => itenaryitem.LocationId)" />
+                <ValidationMessage For="@(() => itenaryitem.LocationId)" />
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label>Attraction: </label>
-        <div>
-            <InputSelect @bind-Value="itenaryitem.AttractionId" class="form-control">
-                <option value="">-- Select Attraction --</option>
-                @if (Attractions != null)
-                {
-                    foreach (var attraction in Attractions)
+        <div class="form-group">
+            <label>Attraction: </label>
+            <div>
+                <InputSelect @bind-Value="itenaryitem.AttractionId" class="form-control">
+                    <option value="">-- Select Attraction --</option>
+                    @if (Attractions != null)
                     {
-                        <option value="@attraction.Id">@attraction.Name</option>
+                        foreach (var attraction in Attractions)
+                        {
+                            <option value="@attraction.Id">@attraction.Name</option>
+                        }
                     }
-                }
-            </InputSelect>
+                </InputSelect>
 
-            <ValidationMessage For="@(() => itenaryitem.AttractionId)" />
+                <ValidationMessage For="@(() => itenaryitem.AttractionId)" />
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label>Hotel: </label>
-        <div>
-            <InputSelect @bind-Value="itenaryitem.HotelId" class="form-control">
-                <option value="">-- Select Hotel --</option>
-                @if (Hotels != null)
-                {
-                    foreach (var hotel in Hotels)
+        <div class="form-group">
+            <label>Hotel: </label>
+            <div>
+                <InputSelect @bind-Value="itenaryitem.HotelId" class="form-control">
+                    <option value="">-- Select Hotel --</option>
+                    @if (Hotels != null)
                     {
-                        <option value="@hotel.Id">@hotel.Name</option>
+                        foreach (var hotel in Hotels)
+                        {
+                            <option value="@hotel.Id">@hotel.Name</option>
+                        }
                     }
-                }
-            </InputSelect>
-            <ValidationMessage For="@(() => itenaryitem.HotelId)" />
+                </InputSelect>
+                <ValidationMessage For="@(() => itenaryitem.HotelId)" />
+            </div>
         </div>
-    </div>
+    </fieldset>
 
-    <button type="submit" class="btn btn-success btn-block">
-        @ButtonText
-    </button>
-    <BackToList Target="itenaryitems" />
+        @if (!Disabled)
+        {
+
+            <button type="submit" class="btn btn-success btn-block">
+                @ButtonText
+            </button>
+        }
+        <BackToList Target="itenaryitems" />
 </EditForm>
 
 @code {
-
+    [Parameter] public bool Disabled { get; set; } = false;
     [Parameter] public ItenaryItem itenaryitem { get; set; }
     [Parameter] public string ButtonText { get; set; } = "Save";
     [Parameter] public EventCallback OnValidSubmit { get; set; }

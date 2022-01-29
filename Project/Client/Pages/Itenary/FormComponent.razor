@@ -1,23 +1,30 @@
 ﻿<EditForm Model="@itenary" OnValidSubmit="@OnValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
+    <fieldset disbled="@Disabled">
 
-    <div class="form-group">
-        <label>Total Price: </label>
-        <div>
-            <InputNumber @bind-Value="@itenary.TotalPrice" class="form-control" />
-            <ValidationMessage For="@(() => itenary.TotalPrice)" />
+        <div class="form-group">
+            <label>Total Price: </label>
+            <div>
+                <InputNumber @bind-Value="@itenary.TotalPrice" class="form-control" />
+                <ValidationMessage For="@(() => itenary.TotalPrice)" />
+            </div>
         </div>
-    </div>
-    <button type="submit" class="btn btn-success btn-block">
-        @ButtonText
-    </button>
-    <BackToList Target="itineraries" />
+    </fieldset>
+
+        @if (!Disabled)
+        {
+            <button type="submit" class="btn btn-success btn-block">
+                @ButtonText
+            </button>
+        }
+
+        <BackToList Target="itineraries" />
 </EditForm>
 
 @code {
+    [Parameter] public bool Disabled { get; set; } = false;
     [Parameter] public Itenary itenary { get; set; }
     [Parameter] public string ButtonText { get; set; } = "Save";
     [Parameter] public EventCallback OnValidSubmit { get; set; }
-
 }
