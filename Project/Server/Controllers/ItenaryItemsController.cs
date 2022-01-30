@@ -16,7 +16,6 @@ namespace Project.Server.Controllers
     public class ItenaryItemsController : ControllerBase
     {
         
-
         private readonly IUnitOfWork _unitOfWork;
 
         public ItenaryItemsController(IUnitOfWork unitOfWork)

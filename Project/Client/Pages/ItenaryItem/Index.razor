@@ -73,7 +73,7 @@ else
     async Task Delete(int itenaryitemId)
     {
         var itenaryitem = ItenaryItems.First(q => q.Id == itenaryitemId);
-        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {itenaryitem.Id}?");
+        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {itenaryitem.Country}?");
         if (confirm)
         {
             await _client.DeleteAsync($"{Endpoint.ItenaryItemsEndpoint}/{itenaryitemId}");
