@@ -8,6 +8,7 @@ namespace Project.Shared.Domains
 {
     public class ItenaryItem : BaseDomainModel
     {
+        public DateTime Dateofhol{ get; set; }
         public float Price { get; set; }
 
         public virtual Country Country { get; set; }
@@ -25,6 +26,10 @@ namespace Project.Shared.Domains
         public virtual Hotel Hotel { get; set; }
 
         public int HotelId { get; set; }
+        
+        public virtual Customer Customer { get; set; }
+
+        public int CustomerId { get; set; }
 
         public virtual Itenary Itenary { get; set; }
 

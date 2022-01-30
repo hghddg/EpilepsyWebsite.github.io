@@ -15,9 +15,12 @@ namespace Project.Server.Controllers
     [ApiController]
     public class ItenaryItemsController : ControllerBase
     {
-        
+        //Refactored
+        //private readonly ApplicationDbContext _context;
         private readonly IUnitOfWork _unitOfWork;
 
+        //Refactored
+        //public ItenaryItemsController(ApplicationDbContext context)
         public ItenaryItemsController(IUnitOfWork unitOfWork)
         {
             //Refactored
@@ -25,47 +28,63 @@ namespace Project.Server.Controllers
             _unitOfWork = unitOfWork;
         }
 
+
         // GET: api/ItenaryItems
         [HttpGet]
-        public async Task<ActionResult> GetItenaryItems()
+        //Refactored
+        //public async Task<ActionResult<IEnumerable<ItenaryItem>>> GetItenaryItems()
+        public async Task<IActionResult> GetItenaryItems()
         {
-            var itenaryitems = await _unitOfWork.ItenaryItems.GetAll(includes: q => q.Include(x => x.Country).Include(x => x.Location).Include(x => x.Attraction).Include(x => x.Hotel));
-
-            return Ok(itenaryitems);
+            //Refactored
+            //return await _context.ItenaryItems.ToListAsync();
+            var ItenaryItems = await _unitOfWork.ItenaryItems.GetAll(includes: q => q.Include(x => x.Attraction).Include(x => x.Hotel).Include(x => x.Location).Include(x => x.Country));
+            return Ok(ItenaryItems);
+            
         }
 
         // GET: api/ItenaryItems/5
         [HttpGet("{id}")]
-        public async Task<ActionResult> GetItenaryItem(int id)
+        //Refactored
+        //public async Task<ActionResult<ItenaryItem>> GetItenaryItem(int id)
+        public async Task<IActionResult> GetItenaryItem(int id)
         {
-            var itenaryItem = await _unitOfWork.ItenaryItems.Get(q => q.Id == id);
+            //Refactored
+            //var ItenaryItem = await _context.ItenaryItems.FindAsync(id);
+            var ItenaryItem = await _unitOfWork.ItenaryItems.Get(q => q.Id == id);
 
-            if (itenaryItem == null)
+            if (ItenaryItem == null)
             {
                 return NotFound();
             }
 
-            return Ok(itenaryItem);
+            //Refactored
+            return Ok(ItenaryItem);
         }
 
         // PUT: api/ItenaryItems/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutItenaryItem(int id, ItenaryItem itenaryItem)
+        public async Task<IActionResult> PutItenaryItem(int id, ItenaryItem ItenaryItem)
         {
-            if (id != itenaryItem.Id)
+            if (id != ItenaryItem.Id)
             {
                 return BadRequest();
             }
 
-            _unitOfWork.ItenaryItems.Update(itenaryItem);
+            //Refactored
+            //_context.Entry(ItenaryItem).State = EntityState.Modified;
+            _unitOfWork.ItenaryItems.Update(ItenaryItem);
 
             try
             {
+                //Refactored
+                //await _context.SaveChangesAsync();
                 await _unitOfWork.Save(HttpContext);
             }
             catch (DbUpdateConcurrencyException)
             {
+                //Refactored
+                //if (!ItenaryItemExists(id))
                 if (!await ItenaryItemExists(id))
                 {
                     return NotFound();
@@ -82,34 +101,46 @@ namespace Project.Server.Controllers
         // POST: api/ItenaryItems
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<ItenaryItem>> PostItenaryItem(ItenaryItem itenaryItem)
+        public async Task<ActionResult<ItenaryItem>> PostItenaryItem(ItenaryItem ItenaryItem)
         {
-            await _unitOfWork.ItenaryItems.Insert(itenaryItem);
+            //Refactored
+            //_context.ItenaryItems.Add(ItenaryItem);
+            //await _context.SaveChangesAsync();
+            await _unitOfWork.ItenaryItems.Insert(ItenaryItem);
             await _unitOfWork.Save(HttpContext);
 
-            return CreatedAtAction("GetItenaryItem", new { id = itenaryItem.Id }, itenaryItem);
+            return CreatedAtAction("GetItenaryItem", new { id = ItenaryItem.Id }, ItenaryItem);
         }
 
         // DELETE: api/ItenaryItems/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteItenaryItem(int id)
         {
-            var itenaryItem = await _unitOfWork.ItenaryItems.Get(q => q.Id == id);
-            if (itenaryItem == null)
+            //Refactored
+            //var ItenaryItem = await _context.ItenaryItems.FindAsync(id);
+            var ItenaryItem = await _unitOfWork.ItenaryItems.Get(q => q.Id == id);
+            if (ItenaryItem == null)
             {
                 return NotFound();
             }
 
+            //Refactored
+            //_context.ItenaryItems.Remove(ItenaryItem);
+            //await _context.SaveChangesAsync();
             await _unitOfWork.ItenaryItems.Delete(id);
             await _unitOfWork.Save(HttpContext);
 
             return NoContent();
         }
 
+        //Refactored
+        //private bool ItenaryItemExists(int id)
         private async Task<bool> ItenaryItemExists(int id)
         {
-            var itenaryItem = await _unitOfWork.ItenaryItems.Get(q => q.Id == id);
-            return itenaryItem != null;
+            //Refactored
+            //return _context.ItenaryItems.Any(e => e.Id == id);
+            var ItenaryItem = await _unitOfWork.ItenaryItems.Get(q => q.Id == id);
+            return ItenaryItem != null;
         }
     }
 }

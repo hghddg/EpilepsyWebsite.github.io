@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\scripts\database.js" />
     <None Include="wwwroot\travel.jpeg" />
   </ItemGroup>
 
