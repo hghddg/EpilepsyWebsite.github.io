@@ -12,6 +12,7 @@
                 <ValidationMessage For="@(() => itenaryitem.Price)" />
             </div>
         </div>
+
         <div class="form-group">
             <label>Country: </label>
             <div>
@@ -43,10 +44,10 @@
                         }
                     }
                 </InputSelect>
-
                 <ValidationMessage For="@(() => itenaryitem.LocationId)" />
             </div>
         </div>
+
         <div class="form-group">
             <label>Attraction: </label>
             <div>
@@ -60,10 +61,10 @@
                         }
                     }
                 </InputSelect>
-
                 <ValidationMessage For="@(() => itenaryitem.AttractionId)" />
             </div>
         </div>
+
         <div class="form-group">
             <label>Hotel: </label>
             <div>
@@ -80,6 +81,7 @@
                 <ValidationMessage For="@(() => itenaryitem.HotelId)" />
             </div>
         </div>
+
     </fieldset>
 
         @if (!Disabled)
@@ -91,6 +93,7 @@
         }
         <BackToList Target="itenaryitems" />
 </EditForm>
+
 
 @code {
     [Parameter] public bool Disabled { get; set; } = false;
