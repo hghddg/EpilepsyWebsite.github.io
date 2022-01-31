@@ -16,7 +16,7 @@ namespace Project.Client.Static
         public static readonly string CustomersEndpoint = $"{Prefix}/customers";
         public static readonly string HotelEndpoint = $"{Prefix}/hotels";
         public static readonly string ItinerariesEndpoint = $"{Prefix}/itineraries";
-        public static readonly string ItenaryItemsEndpoint = $"{Prefix}/itenanryitems";
+        public static readonly string ItenaryItemsEndpoint = $"{Prefix}/itenaryitems";
         public static readonly string LocationEndpoint = $"{Prefix}/locations";
         public static readonly string PaymentEndpoint = $"{Prefix}/payments";
     }

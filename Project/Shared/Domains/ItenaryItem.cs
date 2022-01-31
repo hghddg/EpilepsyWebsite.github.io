@@ -33,5 +33,7 @@ namespace Project.Shared.Domains
 
         public virtual Itenary Itenary { get; set; }
 
+        public int ItenaryId { get; set; }
+
     }
 }
