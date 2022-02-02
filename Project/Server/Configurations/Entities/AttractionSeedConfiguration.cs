@@ -20,6 +20,7 @@ namespace Project.Server.Configurations.Entities
                     Description = "The Kanheri Caves are a group of caves and rock-cut monuments cut into a massive basalt outcrop in the forests of the Sanjay Gandhi National Park, " +
                     "on the former island of Salsette in the western outskirts of Mumbai, India ",
                     ALocation = "Mumbai, Maharashtra 400101, India",
+                    LocationID = 1,
                     Price = 3.59F,
                     DateCreated = DateTime.Now,
                     DateUpdated = DateTime.Now,
@@ -34,6 +35,7 @@ namespace Project.Server.Configurations.Entities
                     Description = "The Great Wall of China is a series of fortifications that were built across the historical northern borders of ancient Chinese states " +
                     "and Imperial China as protection against various nomadic groups from the Eurasian Steppe ",
                     ALocation = "Huairou District, China, 101406",
+                    LocationID = 2,
                     Price = 21.28F,
                     DateCreated = DateTime.Now,
                     DateUpdated = DateTime.Now,
@@ -49,6 +51,7 @@ namespace Project.Server.Configurations.Entities
                     "However, entry to this beloved monument reveals a remarkable space filled with heavenly blue light and stunning architectural feats. " +
                     "Take a moment to experience the unique beauty of this building and pay tribute to St. Dom Bosco.",
                     ALocation = "Quadra 702 Sul Bloco B, SHCS, Brasília - DF, Brazil",
+                    LocationID = 3,
                     Price = 0,
                     DateCreated = DateTime.Now,
                     DateUpdated = DateTime.Now,
@@ -63,6 +66,7 @@ namespace Project.Server.Configurations.Entities
                     Description = "The Great Pyramid of Giza is the oldest and largest of the pyramids in the Giza pyramid complex" +
                     "bordering present-day Giza in Greater Cairo, Egypt. It is the oldest of the Seven Wonders of the Ancient World,",
                     ALocation = "Al Haram, Nazlet El-Semman, Al Giza Desert, Giza Governorate, Egypt",
+                    LocationID = 4,
                     Price = 45.75F,
                     DateCreated = DateTime.Now,
                     DateUpdated = DateTime.Now,

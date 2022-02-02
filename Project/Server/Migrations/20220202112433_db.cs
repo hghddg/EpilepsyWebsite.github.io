@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Project.Server.Migrations
 {
-    public partial class newdb : Migration
+    public partial class db : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -342,7 +342,7 @@ namespace Project.Server.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ALocation = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<float>(type: "real", nullable: false),
-                    LocationId = table.Column<int>(type: "int", nullable: true),
+                    LocationID = table.Column<int>(type: "int", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -352,8 +352,8 @@ namespace Project.Server.Migrations
                 {
                     table.PrimaryKey("PK_Attractions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Attractions_Locations_LocationId",
-                        column: x => x.LocationId,
+                        name: "FK_Attractions_Locations_LocationID",
+                        column: x => x.LocationID,
                         principalTable: "Locations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -370,7 +370,7 @@ namespace Project.Server.Migrations
                     Contact = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     HLocation = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<float>(type: "real", nullable: false),
-                    LocationId = table.Column<int>(type: "int", nullable: true),
+                    LocationID = table.Column<int>(type: "int", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -380,8 +380,8 @@ namespace Project.Server.Migrations
                 {
                     table.PrimaryKey("PK_Hotels", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Hotels_Locations_LocationId",
-                        column: x => x.LocationId,
+                        name: "FK_Hotels_Locations_LocationID",
+                        column: x => x.LocationID,
                         principalTable: "Locations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -395,12 +395,12 @@ namespace Project.Server.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Dateofhol = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Price = table.Column<float>(type: "real", nullable: false),
-                    CountryId = table.Column<int>(type: "int", nullable: false),
-                    LocationId = table.Column<int>(type: "int", nullable: false),
-                    AttractionId = table.Column<int>(type: "int", nullable: false),
-                    HotelId = table.Column<int>(type: "int", nullable: false),
-                    CustomerId = table.Column<int>(type: "int", nullable: false),
-                    ItenaryId = table.Column<int>(type: "int", nullable: false),
+                    CountryId = table.Column<int>(type: "int", nullable: true),
+                    LocationId = table.Column<int>(type: "int", nullable: true),
+                    AttractionId = table.Column<int>(type: "int", nullable: true),
+                    HotelId = table.Column<int>(type: "int", nullable: true),
+                    CustomerId = table.Column<int>(type: "int", nullable: true),
+                    ItenaryId = table.Column<int>(type: "int", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -414,37 +414,37 @@ namespace Project.Server.Migrations
                         column: x => x.AttractionId,
                         principalTable: "Attractions",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ItenaryItems_Country_CountryId",
                         column: x => x.CountryId,
                         principalTable: "Country",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ItenaryItems_Customers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ItenaryItems_Hotels_HotelId",
                         column: x => x.HotelId,
                         principalTable: "Hotels",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ItenaryItems_Itenaries_ItenaryId",
                         column: x => x.ItenaryId,
                         principalTable: "Itenaries",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ItenaryItems_Locations_LocationId",
                         column: x => x.LocationId,
                         principalTable: "Locations",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
@@ -452,63 +452,63 @@ namespace Project.Server.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "ad2bcf0c-20db-474f-8407-5a6b159518ba", "7022c203-2225-4f9c-90f3-78618a259551", "Administrator", "ADMINISTRATOR" },
-                    { "bd2bcf0c-20db-474f-8407-5a6b159518bb", "073585a0-69f3-4426-b750-764aa07956a5", "User", "USER" }
+                    { "ad2bcf0c-20db-474f-8407-5a6b159518ba", "72059547-24d0-44c6-8f7f-fb89f585f14b", "Administrator", "ADMINISTRATOR" },
+                    { "bd2bcf0c-20db-474f-8407-5a6b159518bb", "e69cf03d-ae4c-46f3-a64f-5268ab6ec1bc", "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "3781efa7-66dc-47f0-860f-e506d04102e4", 0, "f292f9cd-734d-4ee9-9f98-5504dda82706", "admin@localhost.com", false, "Admin", "User", false, null, "ADMIN@LOCALHOST.COM", "ADMIN", "AQAAAAEAACcQAAAAEJ01jHHyyWYNoUE4+sNfY+gypDhK46W9TvrG2UKkS/7Yic+vWTtN5ghvcZo4grNVrw==", null, false, "e3e89d00-2dc5-435e-b0d3-78ba7c14edad", false, "Admin" });
-
-            migrationBuilder.InsertData(
-                table: "Attractions",
-                columns: new[] { "Id", "ALocation", "CreatedBy", "DateCreated", "DateUpdated", "Description", "LocationId", "Name", "Price", "UpdatedBy" },
-                values: new object[,]
-                {
-                    { 1, "Mumbai, Maharashtra 400101, India", "System", new DateTime(2022, 1, 31, 16, 1, 57, 81, DateTimeKind.Local).AddTicks(310), new DateTime(2022, 1, 31, 16, 1, 57, 82, DateTimeKind.Local).AddTicks(3609), "The Kanheri Caves are a group of caves and rock-cut monuments cut into a massive basalt outcrop in the forests of the Sanjay Gandhi National Park, on the former island of Salsette in the western outskirts of Mumbai, India ", null, "Kanheri Caves", 3.59f, "System" },
-                    { 2, "Huairou District, China, 101406", "System", new DateTime(2022, 1, 31, 16, 1, 57, 82, DateTimeKind.Local).AddTicks(5170), new DateTime(2022, 1, 31, 16, 1, 57, 82, DateTimeKind.Local).AddTicks(5177), "The Great Wall of China is a series of fortifications that were built across the historical northern borders of ancient Chinese states and Imperial China as protection against various nomadic groups from the Eurasian Steppe ", null, "Great Wall of China", 21.28f, "System" },
-                    { 3, "Quadra 702 Sul Bloco B, SHCS, Brasília - DF, Brazil", "System", new DateTime(2022, 1, 31, 16, 1, 57, 82, DateTimeKind.Local).AddTicks(5180), new DateTime(2022, 1, 31, 16, 1, 57, 82, DateTimeKind.Local).AddTicks(5181), "From the outside, the Dom Bosco Sanctuary looks like barely more than a mildly impressive concrete block. However, entry to this beloved monument reveals a remarkable space filled with heavenly blue light and stunning architectural feats. Take a moment to experience the unique beauty of this building and pay tribute to St. Dom Bosco.", null, "Santuário São João Bosco", 0f, "System" },
-                    { 4, "Al Haram, Nazlet El-Semman, Al Giza Desert, Giza Governorate, Egypt", "System", new DateTime(2022, 1, 31, 16, 1, 57, 82, DateTimeKind.Local).AddTicks(5183), new DateTime(2022, 1, 31, 16, 1, 57, 82, DateTimeKind.Local).AddTicks(5184), "The Great Pyramid of Giza is the oldest and largest of the pyramids in the Giza pyramid complexbordering present-day Giza in Greater Cairo, Egypt. It is the oldest of the Seven Wonders of the Ancient World,", null, "The Great Pyramid of Giza", 45.75f, "System" }
-                });
+                values: new object[] { "3781efa7-66dc-47f0-860f-e506d04102e4", 0, "d7f2fadd-3574-4b0b-8a0b-b2f304b9cc7c", "admin@localhost.com", false, "Admin", "User", false, null, "ADMIN@LOCALHOST.COM", "ADMIN", "AQAAAAEAACcQAAAAENIjUJ4AA0Usozb+9e69lLJupmaFh3miPLXQ9uxDfFSBGow8hOT/ngPi/D/7+sqi9A==", null, false, "6127de75-1f1b-4f3b-b854-7c09b9b149ee", false, "Admin" });
 
             migrationBuilder.InsertData(
                 table: "Country",
                 columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "Detail", "Name", "UpdatedBy" },
                 values: new object[,]
                 {
-                    { 4, "System", new DateTime(2022, 1, 31, 16, 1, 57, 85, DateTimeKind.Local).AddTicks(416), new DateTime(2022, 1, 31, 16, 1, 57, 85, DateTimeKind.Local).AddTicks(417), "Egypt is the best-known tourist destination in the Middle East as it has a magnificent history, a timeless civilization of more than 5000 years with a huge variety of an endless number of antiquities, artifacts, and monuments. The Ancient Egypt Civilization has many hidden secrets which need to be revealed and that’s why, Many thousands of tourists from all over the world enjoy Egypt", "Egypt", "System" },
-                    { 3, "System", new DateTime(2022, 1, 31, 16, 1, 57, 85, DateTimeKind.Local).AddTicks(413), new DateTime(2022, 1, 31, 16, 1, 57, 85, DateTimeKind.Local).AddTicks(414), "Most tourists in Brazil travel to Rio de Janeiro and other easily accessible sites that are in or around urban centres with well-established hospitality industries. Salvador and other parts of Bahia are major tourist attractions, and increasing numbers of vacationers are visiting other coastal areas of the Northeast. Eco-tourism is moderately popular in the Amazon region, while in the South the beaches of Santa Catarina draw large crowds of Argentine tourists.", "Brazil", "System" },
-                    { 1, "System", new DateTime(2022, 1, 31, 16, 1, 57, 85, DateTimeKind.Local).AddTicks(394), new DateTime(2022, 1, 31, 16, 1, 57, 85, DateTimeKind.Local).AddTicks(405), "The people of India are known for their traditions of hospitality to foreigners. They have varied life styles, cultural heritage and colourful fairs and festivals. Which make India a unique tourist destination. India abounds in attractive and well-preserved historical sites, ancient monuments of architectural grandeur and not-so-ancient mosques/durgahs, churches and places of worship of other diverse faiths", "India", "System" },
-                    { 2, "System", new DateTime(2022, 1, 31, 16, 1, 57, 85, DateTimeKind.Local).AddTicks(409), new DateTime(2022, 1, 31, 16, 1, 57, 85, DateTimeKind.Local).AddTicks(411), "It has everything that can be interesting to a foreigner: architectural monuments of one of the most ancient civilizations, national parks with different climate and nature, modern metropolises and small provincial towns which managed to preserve their original culture, amazing sand beaches and inaccessible snow-white mountain tops.", "China", "System" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Hotels",
-                columns: new[] { "Id", "Contact", "CreatedBy", "DateCreated", "DateUpdated", "HLocation", "LocationId", "Name", "Price", "Rating", "UpdatedBy" },
-                values: new object[,]
-                {
-                    { 1, "+91 22 6668 1234", "System", new DateTime(2022, 1, 31, 16, 1, 57, 86, DateTimeKind.Local).AddTicks(5629), new DateTime(2022, 1, 31, 16, 1, 57, 86, DateTimeKind.Local).AddTicks(5642), "Band Stand, BJ Road, Mount Mary, Bandra West, Mumbai, Maharashtra 400050, India", null, "Taj Lands End", 151f, 4.5999999999999996, "System" },
-                    { 2, "+86 10 8511 7777", "System", new DateTime(2022, 1, 31, 16, 1, 57, 86, DateTimeKind.Local).AddTicks(5648), new DateTime(2022, 1, 31, 16, 1, 57, 86, DateTimeKind.Local).AddTicks(5649), "China, Beijing, Chaoyang", null, "Fairmont Beijing Hotel", 175f, 4.4000000000000004, "System" },
-                    { 3, "+55 61 3424-7000", "System", new DateTime(2022, 1, 31, 16, 1, 57, 86, DateTimeKind.Local).AddTicks(5652), new DateTime(2022, 1, 31, 16, 1, 57, 86, DateTimeKind.Local).AddTicks(5653), "SHTN Trecho 1 Conjunto 1B Bloco C - Asa Norte, Brasília - DF, 70800-200, Brazil", null, "Royal Tulip Brasília Alvorada", 159f, 4.7000000000000002, "System" },
-                    { 4, "+20 2 25777444", "System", new DateTime(2022, 1, 31, 16, 1, 57, 86, DateTimeKind.Local).AddTicks(5656), new DateTime(2022, 1, 31, 16, 1, 57, 86, DateTimeKind.Local).AddTicks(5657), "1115 Nile Corniche, Sharkas, Bulaq, Cairo Governorate, Egypt", null, "Ramses Hilton", 145f, 4.2000000000000002, "System" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Locations",
-                columns: new[] { "Id", "CountryId", "CreatedBy", "DateCreated", "DateUpdated", "Detail", "Name", "UpdatedBy" },
-                values: new object[,]
-                {
-                    { 3, null, "System", new DateTime(2022, 1, 31, 16, 1, 57, 87, DateTimeKind.Local).AddTicks(4229), new DateTime(2022, 1, 31, 16, 1, 57, 87, DateTimeKind.Local).AddTicks(4231), "With long distances and harrowing six-lane highways connected by spaghetti junctions, Brasília presents challenges for walkers; consider renting a car or ride shares.You'll find a lively city hidden behind the futuristic facade. It's not only a pilgrimage for architecture buffs but also foodies, night owls and those seeking a unique travel experience.", "Brasília", "System" },
-                    { 1, null, "System", new DateTime(2022, 1, 31, 16, 1, 57, 87, DateTimeKind.Local).AddTicks(4209), new DateTime(2022, 1, 31, 16, 1, 57, 87, DateTimeKind.Local).AddTicks(4219), "If you are planning to visit Mumbai, trust us when we say it may look intimidating initially, but it is not. In fact it is one of the friendliest cities of India. The extreme energy and the fast paced life of the people here cannot be easily matched. The heart of Mumbai has some of the best and beautiful colonial architecture and if you venture out to the lesser known lanes, you will also come across several distinct bazaars, temples, fancy restaurants and a nightlife that is one of its kinds.", "Mumbai", "System" },
-                    { 2, null, "System", new DateTime(2022, 1, 31, 16, 1, 57, 87, DateTimeKind.Local).AddTicks(4225), new DateTime(2022, 1, 31, 16, 1, 57, 87, DateTimeKind.Local).AddTicks(4227), "From Peking opera troupes to world-class contemporary art, Beijing draws on a profound well of creativity, and that's despite the vagaries of censorship. To give the government its due, museums are more numerous than ever, curation is less prescriptive and innovation is at an all-time high.", "Beijing", "System" },
-                    { 4, null, "System", new DateTime(2022, 1, 31, 16, 1, 57, 87, DateTimeKind.Local).AddTicks(4233), new DateTime(2022, 1, 31, 16, 1, 57, 87, DateTimeKind.Local).AddTicks(4235), "Cairo is one of the world's great megacities. As beautiful and as rich in historic finery as it is confounding and an assault on your senses to first-time visitors The main tourist attraction everyone is here to see are the Giza Pyramids on the city's doorstep, but the city itself is crammed with major monuments that span centuries of history. There are so many things to do in Cairo that you'll only be able to cover a sliver on one trip.", "Cairo", "System" }
+                    { 1, "System", new DateTime(2022, 2, 2, 19, 24, 32, 660, DateTimeKind.Local).AddTicks(1309), new DateTime(2022, 2, 2, 19, 24, 32, 660, DateTimeKind.Local).AddTicks(1316), "The people of India are known for their traditions of hospitality to foreigners. They have varied life styles, cultural heritage and colourful fairs and festivals. Which make India a unique tourist destination. India abounds in attractive and well-preserved historical sites, ancient monuments of architectural grandeur and not-so-ancient mosques/durgahs, churches and places of worship of other diverse faiths", "India", "System" },
+                    { 2, "System", new DateTime(2022, 2, 2, 19, 24, 32, 660, DateTimeKind.Local).AddTicks(1320), new DateTime(2022, 2, 2, 19, 24, 32, 660, DateTimeKind.Local).AddTicks(1320), "It has everything that can be interesting to a foreigner: architectural monuments of one of the most ancient civilizations, national parks with different climate and nature, modern metropolises and small provincial towns which managed to preserve their original culture, amazing sand beaches and inaccessible snow-white mountain tops.", "China", "System" },
+                    { 3, "System", new DateTime(2022, 2, 2, 19, 24, 32, 660, DateTimeKind.Local).AddTicks(1322), new DateTime(2022, 2, 2, 19, 24, 32, 660, DateTimeKind.Local).AddTicks(1323), "Most tourists in Brazil travel to Rio de Janeiro and other easily accessible sites that are in or around urban centres with well-established hospitality industries. Salvador and other parts of Bahia are major tourist attractions, and increasing numbers of vacationers are visiting other coastal areas of the Northeast. Eco-tourism is moderately popular in the Amazon region, while in the South the beaches of Santa Catarina draw large crowds of Argentine tourists.", "Brazil", "System" },
+                    { 4, "System", new DateTime(2022, 2, 2, 19, 24, 32, 660, DateTimeKind.Local).AddTicks(1324), new DateTime(2022, 2, 2, 19, 24, 32, 660, DateTimeKind.Local).AddTicks(1325), "Egypt is the best-known tourist destination in the Middle East as it has a magnificent history, a timeless civilization of more than 5000 years with a huge variety of an endless number of antiquities, artifacts, and monuments. The Ancient Egypt Civilization has many hidden secrets which need to be revealed and that’s why, Many thousands of tourists from all over the world enjoy Egypt", "Egypt", "System" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[] { "ad2bcf0c-20db-474f-8407-5a6b159518ba", "3781efa7-66dc-47f0-860f-e506d04102e4" });
+
+            migrationBuilder.InsertData(
+                table: "Locations",
+                columns: new[] { "Id", "CountryId", "CreatedBy", "DateCreated", "DateUpdated", "Detail", "Name", "UpdatedBy" },
+                values: new object[,]
+                {
+                    { 1, 1, "System", new DateTime(2022, 2, 2, 19, 24, 32, 661, DateTimeKind.Local).AddTicks(2584), new DateTime(2022, 2, 2, 19, 24, 32, 661, DateTimeKind.Local).AddTicks(2590), "If you are planning to visit Mumbai, trust us when we say it may look intimidating initially, but it is not. In fact it is one of the friendliest cities of India. The extreme energy and the fast paced life of the people here cannot be easily matched. The heart of Mumbai has some of the best and beautiful colonial architecture and if you venture out to the lesser known lanes, you will also come across several distinct bazaars, temples, fancy restaurants and a nightlife that is one of its kinds.", "Mumbai", "System" },
+                    { 2, 2, "System", new DateTime(2022, 2, 2, 19, 24, 32, 661, DateTimeKind.Local).AddTicks(2593), new DateTime(2022, 2, 2, 19, 24, 32, 661, DateTimeKind.Local).AddTicks(2594), "From Peking opera troupes to world-class contemporary art, Beijing draws on a profound well of creativity, and that's despite the vagaries of censorship. To give the government its due, museums are more numerous than ever, curation is less prescriptive and innovation is at an all-time high.", "Beijing", "System" },
+                    { 3, 3, "System", new DateTime(2022, 2, 2, 19, 24, 32, 661, DateTimeKind.Local).AddTicks(2597), new DateTime(2022, 2, 2, 19, 24, 32, 661, DateTimeKind.Local).AddTicks(2598), "With long distances and harrowing six-lane highways connected by spaghetti junctions, Brasília presents challenges for walkers; consider renting a car or ride shares.You'll find a lively city hidden behind the futuristic facade. It's not only a pilgrimage for architecture buffs but also foodies, night owls and those seeking a unique travel experience.", "Brasília", "System" },
+                    { 4, 4, "System", new DateTime(2022, 2, 2, 19, 24, 32, 661, DateTimeKind.Local).AddTicks(2599), new DateTime(2022, 2, 2, 19, 24, 32, 661, DateTimeKind.Local).AddTicks(2600), "Cairo is one of the world's great megacities. As beautiful and as rich in historic finery as it is confounding and an assault on your senses to first-time visitors The main tourist attraction everyone is here to see are the Giza Pyramids on the city's doorstep, but the city itself is crammed with major monuments that span centuries of history. There are so many things to do in Cairo that you'll only be able to cover a sliver on one trip.", "Cairo", "System" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Attractions",
+                columns: new[] { "Id", "ALocation", "CreatedBy", "DateCreated", "DateUpdated", "Description", "LocationID", "Name", "Price", "UpdatedBy" },
+                values: new object[,]
+                {
+                    { 1, "Mumbai, Maharashtra 400101, India", "System", new DateTime(2022, 2, 2, 19, 24, 32, 657, DateTimeKind.Local).AddTicks(8746), new DateTime(2022, 2, 2, 19, 24, 32, 658, DateTimeKind.Local).AddTicks(8354), "The Kanheri Caves are a group of caves and rock-cut monuments cut into a massive basalt outcrop in the forests of the Sanjay Gandhi National Park, on the former island of Salsette in the western outskirts of Mumbai, India ", 1, "Kanheri Caves", 3.59f, "System" },
+                    { 2, "Huairou District, China, 101406", "System", new DateTime(2022, 2, 2, 19, 24, 32, 658, DateTimeKind.Local).AddTicks(9236), new DateTime(2022, 2, 2, 19, 24, 32, 658, DateTimeKind.Local).AddTicks(9242), "The Great Wall of China is a series of fortifications that were built across the historical northern borders of ancient Chinese states and Imperial China as protection against various nomadic groups from the Eurasian Steppe ", 2, "Great Wall of China", 21.28f, "System" },
+                    { 3, "Quadra 702 Sul Bloco B, SHCS, Brasília - DF, Brazil", "System", new DateTime(2022, 2, 2, 19, 24, 32, 658, DateTimeKind.Local).AddTicks(9244), new DateTime(2022, 2, 2, 19, 24, 32, 658, DateTimeKind.Local).AddTicks(9245), "From the outside, the Dom Bosco Sanctuary looks like barely more than a mildly impressive concrete block. However, entry to this beloved monument reveals a remarkable space filled with heavenly blue light and stunning architectural feats. Take a moment to experience the unique beauty of this building and pay tribute to St. Dom Bosco.", 3, "Santuário São João Bosco", 0f, "System" },
+                    { 4, "Al Haram, Nazlet El-Semman, Al Giza Desert, Giza Governorate, Egypt", "System", new DateTime(2022, 2, 2, 19, 24, 32, 658, DateTimeKind.Local).AddTicks(9247), new DateTime(2022, 2, 2, 19, 24, 32, 658, DateTimeKind.Local).AddTicks(9248), "The Great Pyramid of Giza is the oldest and largest of the pyramids in the Giza pyramid complexbordering present-day Giza in Greater Cairo, Egypt. It is the oldest of the Seven Wonders of the Ancient World,", 4, "The Great Pyramid of Giza", 45.75f, "System" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Hotels",
+                columns: new[] { "Id", "Contact", "CreatedBy", "DateCreated", "DateUpdated", "HLocation", "LocationID", "Name", "Price", "Rating", "UpdatedBy" },
+                values: new object[,]
+                {
+                    { 1, "+91 22 6668 1234", "System", new DateTime(2022, 2, 2, 19, 24, 32, 660, DateTimeKind.Local).AddTicks(7918), new DateTime(2022, 2, 2, 19, 24, 32, 660, DateTimeKind.Local).AddTicks(7927), "Band Stand, BJ Road, Mount Mary, Bandra West, Mumbai, Maharashtra 400050, India", 1, "Taj Lands End", 151f, 4.5999999999999996, "System" },
+                    { 2, "+86 10 8511 7777", "System", new DateTime(2022, 2, 2, 19, 24, 32, 660, DateTimeKind.Local).AddTicks(7932), new DateTime(2022, 2, 2, 19, 24, 32, 660, DateTimeKind.Local).AddTicks(7933), "China, Beijing, Chaoyang", 2, "Fairmont Beijing Hotel", 175f, 4.4000000000000004, "System" },
+                    { 3, "+55 61 3424-7000", "System", new DateTime(2022, 2, 2, 19, 24, 32, 660, DateTimeKind.Local).AddTicks(7935), new DateTime(2022, 2, 2, 19, 24, 32, 660, DateTimeKind.Local).AddTicks(7936), "SHTN Trecho 1 Conjunto 1B Bloco C - Asa Norte, Brasília - DF, 70800-200, Brazil", 3, "Royal Tulip Brasília Alvorada", 159f, 4.7000000000000002, "System" },
+                    { 4, "+20 2 25777444", "System", new DateTime(2022, 2, 2, 19, 24, 32, 660, DateTimeKind.Local).AddTicks(7938), new DateTime(2022, 2, 2, 19, 24, 32, 660, DateTimeKind.Local).AddTicks(7938), "1115 Nile Corniche, Sharkas, Bulaq, Cairo Governorate, Egypt", 4, "Ramses Hilton", 145f, 4.2000000000000002, "System" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -550,9 +550,9 @@ namespace Project.Server.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Attractions_LocationId",
+                name: "IX_Attractions_LocationID",
                 table: "Attractions",
-                column: "LocationId");
+                column: "LocationID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Boookings_CustomerId",
@@ -581,9 +581,9 @@ namespace Project.Server.Migrations
                 column: "Expiration");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Hotels_LocationId",
+                name: "IX_Hotels_LocationID",
                 table: "Hotels",
-                column: "LocationId");
+                column: "LocationID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ItenaryItems_AttractionId",

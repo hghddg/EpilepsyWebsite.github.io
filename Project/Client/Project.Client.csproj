@@ -6,6 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Pages\Bookings\**" />
+    <Content Remove="Pages\Bookings\**" />
+    <EmbeddedResource Remove="Pages\Bookings\**" />
+    <None Remove="Pages\Bookings\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Pages\ItenaryItem\CountryComponent.razor" />
+    <Content Remove="Pages\ItenaryItem\Location.Component.razor" />
     <Content Remove="wwwroot\travel.jpeg" />
   </ItemGroup>
 
