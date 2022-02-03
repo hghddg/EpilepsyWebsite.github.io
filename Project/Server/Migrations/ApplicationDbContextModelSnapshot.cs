@@ -152,14 +152,14 @@ namespace Project.Server.Migrations
                         new
                         {
                             Id = "ad2bcf0c-20db-474f-8407-5a6b159518ba",
-                            ConcurrencyStamp = "7022c203-2225-4f9c-90f3-78618a259551",
+                            ConcurrencyStamp = "4b71246e-ea00-4551-8804-e774d385b94c",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "bd2bcf0c-20db-474f-8407-5a6b159518bb",
-                            ConcurrencyStamp = "073585a0-69f3-4426-b750-764aa07956a5",
+                            ConcurrencyStamp = "b00518af-a3a8-463a-bb6d-c444a74b26ed",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -355,7 +355,7 @@ namespace Project.Server.Migrations
                         {
                             Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f292f9cd-734d-4ee9-9f98-5504dda82706",
+                            ConcurrencyStamp = "d8beaf78-0bfa-49df-9ffd-f27aee7969e8",
                             Email = "admin@localhost.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -363,9 +363,9 @@ namespace Project.Server.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJ01jHHyyWYNoUE4+sNfY+gypDhK46W9TvrG2UKkS/7Yic+vWTtN5ghvcZo4grNVrw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFoNN80yR+M0qN28Q2Pi5hYS/ffJ9ps2EyGE2PYbt8HRugbwSME8IxKbN1TKdzITxQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e3e89d00-2dc5-435e-b0d3-78ba7c14edad",
+                            SecurityStamp = "0ce73844-1e8e-448c-b906-857e8f3ce393",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         });
@@ -393,9 +393,6 @@ namespace Project.Server.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("LocationId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -407,8 +404,6 @@ namespace Project.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LocationId");
-
                     b.ToTable("Attractions");
 
                     b.HasData(
@@ -417,8 +412,8 @@ namespace Project.Server.Migrations
                             Id = 1,
                             ALocation = "Mumbai, Maharashtra 400101, India",
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2022, 1, 31, 16, 1, 57, 81, DateTimeKind.Local).AddTicks(310),
-                            DateUpdated = new DateTime(2022, 1, 31, 16, 1, 57, 82, DateTimeKind.Local).AddTicks(3609),
+                            DateCreated = new DateTime(2022, 2, 2, 1, 43, 53, 253, DateTimeKind.Local).AddTicks(363),
+                            DateUpdated = new DateTime(2022, 2, 2, 1, 43, 53, 256, DateTimeKind.Local).AddTicks(2589),
                             Description = "The Kanheri Caves are a group of caves and rock-cut monuments cut into a massive basalt outcrop in the forests of the Sanjay Gandhi National Park, on the former island of Salsette in the western outskirts of Mumbai, India ",
                             Name = "Kanheri Caves",
                             Price = 3.59f,
@@ -429,8 +424,8 @@ namespace Project.Server.Migrations
                             Id = 2,
                             ALocation = "Huairou District, China, 101406",
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2022, 1, 31, 16, 1, 57, 82, DateTimeKind.Local).AddTicks(5170),
-                            DateUpdated = new DateTime(2022, 1, 31, 16, 1, 57, 82, DateTimeKind.Local).AddTicks(5177),
+                            DateCreated = new DateTime(2022, 2, 2, 1, 43, 53, 256, DateTimeKind.Local).AddTicks(5133),
+                            DateUpdated = new DateTime(2022, 2, 2, 1, 43, 53, 256, DateTimeKind.Local).AddTicks(5146),
                             Description = "The Great Wall of China is a series of fortifications that were built across the historical northern borders of ancient Chinese states and Imperial China as protection against various nomadic groups from the Eurasian Steppe ",
                             Name = "Great Wall of China",
                             Price = 21.28f,
@@ -441,8 +436,8 @@ namespace Project.Server.Migrations
                             Id = 3,
                             ALocation = "Quadra 702 Sul Bloco B, SHCS, Brasília - DF, Brazil",
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2022, 1, 31, 16, 1, 57, 82, DateTimeKind.Local).AddTicks(5180),
-                            DateUpdated = new DateTime(2022, 1, 31, 16, 1, 57, 82, DateTimeKind.Local).AddTicks(5181),
+                            DateCreated = new DateTime(2022, 2, 2, 1, 43, 53, 256, DateTimeKind.Local).AddTicks(5152),
+                            DateUpdated = new DateTime(2022, 2, 2, 1, 43, 53, 256, DateTimeKind.Local).AddTicks(5157),
                             Description = "From the outside, the Dom Bosco Sanctuary looks like barely more than a mildly impressive concrete block. However, entry to this beloved monument reveals a remarkable space filled with heavenly blue light and stunning architectural feats. Take a moment to experience the unique beauty of this building and pay tribute to St. Dom Bosco.",
                             Name = "Santuário São João Bosco",
                             Price = 0f,
@@ -453,8 +448,8 @@ namespace Project.Server.Migrations
                             Id = 4,
                             ALocation = "Al Haram, Nazlet El-Semman, Al Giza Desert, Giza Governorate, Egypt",
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2022, 1, 31, 16, 1, 57, 82, DateTimeKind.Local).AddTicks(5183),
-                            DateUpdated = new DateTime(2022, 1, 31, 16, 1, 57, 82, DateTimeKind.Local).AddTicks(5184),
+                            DateCreated = new DateTime(2022, 2, 2, 1, 43, 53, 256, DateTimeKind.Local).AddTicks(5163),
+                            DateUpdated = new DateTime(2022, 2, 2, 1, 43, 53, 256, DateTimeKind.Local).AddTicks(5167),
                             Description = "The Great Pyramid of Giza is the oldest and largest of the pyramids in the Giza pyramid complexbordering present-day Giza in Greater Cairo, Egypt. It is the oldest of the Seven Wonders of the Ancient World,",
                             Name = "The Great Pyramid of Giza",
                             Price = 45.75f,
@@ -538,8 +533,8 @@ namespace Project.Server.Migrations
                         {
                             Id = 1,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2022, 1, 31, 16, 1, 57, 85, DateTimeKind.Local).AddTicks(394),
-                            DateUpdated = new DateTime(2022, 1, 31, 16, 1, 57, 85, DateTimeKind.Local).AddTicks(405),
+                            DateCreated = new DateTime(2022, 2, 2, 1, 43, 53, 259, DateTimeKind.Local).AddTicks(2345),
+                            DateUpdated = new DateTime(2022, 2, 2, 1, 43, 53, 259, DateTimeKind.Local).AddTicks(2371),
                             Detail = "The people of India are known for their traditions of hospitality to foreigners. They have varied life styles, cultural heritage and colourful fairs and festivals. Which make India a unique tourist destination. India abounds in attractive and well-preserved historical sites, ancient monuments of architectural grandeur and not-so-ancient mosques/durgahs, churches and places of worship of other diverse faiths",
                             Name = "India",
                             UpdatedBy = "System"
@@ -548,8 +543,8 @@ namespace Project.Server.Migrations
                         {
                             Id = 2,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2022, 1, 31, 16, 1, 57, 85, DateTimeKind.Local).AddTicks(409),
-                            DateUpdated = new DateTime(2022, 1, 31, 16, 1, 57, 85, DateTimeKind.Local).AddTicks(411),
+                            DateCreated = new DateTime(2022, 2, 2, 1, 43, 53, 259, DateTimeKind.Local).AddTicks(2378),
+                            DateUpdated = new DateTime(2022, 2, 2, 1, 43, 53, 259, DateTimeKind.Local).AddTicks(2381),
                             Detail = "It has everything that can be interesting to a foreigner: architectural monuments of one of the most ancient civilizations, national parks with different climate and nature, modern metropolises and small provincial towns which managed to preserve their original culture, amazing sand beaches and inaccessible snow-white mountain tops.",
                             Name = "China",
                             UpdatedBy = "System"
@@ -558,8 +553,8 @@ namespace Project.Server.Migrations
                         {
                             Id = 3,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2022, 1, 31, 16, 1, 57, 85, DateTimeKind.Local).AddTicks(413),
-                            DateUpdated = new DateTime(2022, 1, 31, 16, 1, 57, 85, DateTimeKind.Local).AddTicks(414),
+                            DateCreated = new DateTime(2022, 2, 2, 1, 43, 53, 259, DateTimeKind.Local).AddTicks(2386),
+                            DateUpdated = new DateTime(2022, 2, 2, 1, 43, 53, 259, DateTimeKind.Local).AddTicks(2387),
                             Detail = "Most tourists in Brazil travel to Rio de Janeiro and other easily accessible sites that are in or around urban centres with well-established hospitality industries. Salvador and other parts of Bahia are major tourist attractions, and increasing numbers of vacationers are visiting other coastal areas of the Northeast. Eco-tourism is moderately popular in the Amazon region, while in the South the beaches of Santa Catarina draw large crowds of Argentine tourists.",
                             Name = "Brazil",
                             UpdatedBy = "System"
@@ -568,8 +563,8 @@ namespace Project.Server.Migrations
                         {
                             Id = 4,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2022, 1, 31, 16, 1, 57, 85, DateTimeKind.Local).AddTicks(416),
-                            DateUpdated = new DateTime(2022, 1, 31, 16, 1, 57, 85, DateTimeKind.Local).AddTicks(417),
+                            DateCreated = new DateTime(2022, 2, 2, 1, 43, 53, 259, DateTimeKind.Local).AddTicks(2388),
+                            DateUpdated = new DateTime(2022, 2, 2, 1, 43, 53, 259, DateTimeKind.Local).AddTicks(2389),
                             Detail = "Egypt is the best-known tourist destination in the Middle East as it has a magnificent history, a timeless civilization of more than 5000 years with a huge variety of an endless number of antiquities, artifacts, and monuments. The Ancient Egypt Civilization has many hidden secrets which need to be revealed and that’s why, Many thousands of tourists from all over the world enjoy Egypt",
                             Name = "Egypt",
                             UpdatedBy = "System"
@@ -667,8 +662,8 @@ namespace Project.Server.Migrations
                             Id = 1,
                             Contact = "+91 22 6668 1234",
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2022, 1, 31, 16, 1, 57, 86, DateTimeKind.Local).AddTicks(5629),
-                            DateUpdated = new DateTime(2022, 1, 31, 16, 1, 57, 86, DateTimeKind.Local).AddTicks(5642),
+                            DateCreated = new DateTime(2022, 2, 2, 1, 43, 53, 260, DateTimeKind.Local).AddTicks(4612),
+                            DateUpdated = new DateTime(2022, 2, 2, 1, 43, 53, 260, DateTimeKind.Local).AddTicks(4638),
                             HLocation = "Band Stand, BJ Road, Mount Mary, Bandra West, Mumbai, Maharashtra 400050, India",
                             Name = "Taj Lands End",
                             Price = 151f,
@@ -680,8 +675,8 @@ namespace Project.Server.Migrations
                             Id = 2,
                             Contact = "+86 10 8511 7777",
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2022, 1, 31, 16, 1, 57, 86, DateTimeKind.Local).AddTicks(5648),
-                            DateUpdated = new DateTime(2022, 1, 31, 16, 1, 57, 86, DateTimeKind.Local).AddTicks(5649),
+                            DateCreated = new DateTime(2022, 2, 2, 1, 43, 53, 260, DateTimeKind.Local).AddTicks(4649),
+                            DateUpdated = new DateTime(2022, 2, 2, 1, 43, 53, 260, DateTimeKind.Local).AddTicks(4653),
                             HLocation = "China, Beijing, Chaoyang",
                             Name = "Fairmont Beijing Hotel",
                             Price = 175f,
@@ -693,8 +688,8 @@ namespace Project.Server.Migrations
                             Id = 3,
                             Contact = "+55 61 3424-7000",
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2022, 1, 31, 16, 1, 57, 86, DateTimeKind.Local).AddTicks(5652),
-                            DateUpdated = new DateTime(2022, 1, 31, 16, 1, 57, 86, DateTimeKind.Local).AddTicks(5653),
+                            DateCreated = new DateTime(2022, 2, 2, 1, 43, 53, 260, DateTimeKind.Local).AddTicks(4657),
+                            DateUpdated = new DateTime(2022, 2, 2, 1, 43, 53, 260, DateTimeKind.Local).AddTicks(4660),
                             HLocation = "SHTN Trecho 1 Conjunto 1B Bloco C - Asa Norte, Brasília - DF, 70800-200, Brazil",
                             Name = "Royal Tulip Brasília Alvorada",
                             Price = 159f,
@@ -706,8 +701,8 @@ namespace Project.Server.Migrations
                             Id = 4,
                             Contact = "+20 2 25777444",
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2022, 1, 31, 16, 1, 57, 86, DateTimeKind.Local).AddTicks(5656),
-                            DateUpdated = new DateTime(2022, 1, 31, 16, 1, 57, 86, DateTimeKind.Local).AddTicks(5657),
+                            DateCreated = new DateTime(2022, 2, 2, 1, 43, 53, 260, DateTimeKind.Local).AddTicks(4665),
+                            DateUpdated = new DateTime(2022, 2, 2, 1, 43, 53, 260, DateTimeKind.Local).AddTicks(4666),
                             HLocation = "1115 Nile Corniche, Sharkas, Bulaq, Cairo Governorate, Egypt",
                             Name = "Ramses Hilton",
                             Price = 145f,
@@ -842,8 +837,8 @@ namespace Project.Server.Migrations
                         {
                             Id = 1,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2022, 1, 31, 16, 1, 57, 87, DateTimeKind.Local).AddTicks(4209),
-                            DateUpdated = new DateTime(2022, 1, 31, 16, 1, 57, 87, DateTimeKind.Local).AddTicks(4219),
+                            DateCreated = new DateTime(2022, 2, 2, 1, 43, 53, 261, DateTimeKind.Local).AddTicks(4200),
+                            DateUpdated = new DateTime(2022, 2, 2, 1, 43, 53, 261, DateTimeKind.Local).AddTicks(4228),
                             Detail = "If you are planning to visit Mumbai, trust us when we say it may look intimidating initially, but it is not. In fact it is one of the friendliest cities of India. The extreme energy and the fast paced life of the people here cannot be easily matched. The heart of Mumbai has some of the best and beautiful colonial architecture and if you venture out to the lesser known lanes, you will also come across several distinct bazaars, temples, fancy restaurants and a nightlife that is one of its kinds.",
                             Name = "Mumbai",
                             UpdatedBy = "System"
@@ -852,8 +847,8 @@ namespace Project.Server.Migrations
                         {
                             Id = 2,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2022, 1, 31, 16, 1, 57, 87, DateTimeKind.Local).AddTicks(4225),
-                            DateUpdated = new DateTime(2022, 1, 31, 16, 1, 57, 87, DateTimeKind.Local).AddTicks(4227),
+                            DateCreated = new DateTime(2022, 2, 2, 1, 43, 53, 261, DateTimeKind.Local).AddTicks(4235),
+                            DateUpdated = new DateTime(2022, 2, 2, 1, 43, 53, 261, DateTimeKind.Local).AddTicks(4237),
                             Detail = "From Peking opera troupes to world-class contemporary art, Beijing draws on a profound well of creativity, and that's despite the vagaries of censorship. To give the government its due, museums are more numerous than ever, curation is less prescriptive and innovation is at an all-time high.",
                             Name = "Beijing",
                             UpdatedBy = "System"
@@ -862,8 +857,8 @@ namespace Project.Server.Migrations
                         {
                             Id = 3,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2022, 1, 31, 16, 1, 57, 87, DateTimeKind.Local).AddTicks(4229),
-                            DateUpdated = new DateTime(2022, 1, 31, 16, 1, 57, 87, DateTimeKind.Local).AddTicks(4231),
+                            DateCreated = new DateTime(2022, 2, 2, 1, 43, 53, 261, DateTimeKind.Local).AddTicks(4239),
+                            DateUpdated = new DateTime(2022, 2, 2, 1, 43, 53, 261, DateTimeKind.Local).AddTicks(4241),
                             Detail = "With long distances and harrowing six-lane highways connected by spaghetti junctions, Brasília presents challenges for walkers; consider renting a car or ride shares.You'll find a lively city hidden behind the futuristic facade. It's not only a pilgrimage for architecture buffs but also foodies, night owls and those seeking a unique travel experience.",
                             Name = "Brasília",
                             UpdatedBy = "System"
@@ -872,8 +867,8 @@ namespace Project.Server.Migrations
                         {
                             Id = 4,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2022, 1, 31, 16, 1, 57, 87, DateTimeKind.Local).AddTicks(4233),
-                            DateUpdated = new DateTime(2022, 1, 31, 16, 1, 57, 87, DateTimeKind.Local).AddTicks(4235),
+                            DateCreated = new DateTime(2022, 2, 2, 1, 43, 53, 261, DateTimeKind.Local).AddTicks(4243),
+                            DateUpdated = new DateTime(2022, 2, 2, 1, 43, 53, 261, DateTimeKind.Local).AddTicks(4245),
                             Detail = "Cairo is one of the world's great megacities. As beautiful and as rich in historic finery as it is confounding and an assault on your senses to first-time visitors The main tourist attraction everyone is here to see are the Giza Pyramids on the city's doorstep, but the city itself is crammed with major monuments that span centuries of history. There are so many things to do in Cairo that you'll only be able to cover a sliver on one trip.",
                             Name = "Cairo",
                             UpdatedBy = "System"
@@ -962,15 +957,6 @@ namespace Project.Server.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Project.Shared.Domains.Attraction", b =>
-                {
-                    b.HasOne("Project.Shared.Domains.Location", "Location")
-                        .WithMany()
-                        .HasForeignKey("LocationId");
-
-                    b.Navigation("Location");
                 });
 
             modelBuilder.Entity("Project.Shared.Domains.Booking", b =>
