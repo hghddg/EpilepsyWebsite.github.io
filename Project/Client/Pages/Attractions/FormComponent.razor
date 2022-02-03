@@ -1,46 +1,65 @@
-﻿<EditForm Model="@attraction" OnValidSubmit="@OnValidSubmit">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-    <fieldset disabled="@Disabled">
+﻿@inject HttpClient _client
 
-        <div class="form-group">
-            <label>Name: </label>
-            <div>
-                <InputText @bind-Value="@attraction.Name" class="form-control" />
-                <ValidationMessage For="@(() => attraction.Name)" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label>Description: </label>
-            <div>
-                <InputText @bind-Value="@attraction.Description" class="form-control" />
-                <ValidationMessage For="@(() => attraction.Description)" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label>Place: </label>
-            <div>
-                <InputText @bind-Value="@attraction.ALocation" class="form-control" />
-                <ValidationMessage For="@(() => attraction.ALocation)" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label>Price: </label>
-            <div>
-                <InputNumber @bind-Value="@attraction.Price" class="form-control" />
-                <ValidationMessage For="@(() => attraction.Price)" />
-            </div>
-        </div>
+<EditForm Model="@attraction" OnValidSubmit="@OnValidSubmit">
+  <DataAnnotationsValidator />
+  <ValidationSummary />
+  <fieldset disabled="@Disabled">
 
-    </fieldset>
+    <div class="form-group">
+      <label>Name: </label>
+      <div>
+        <InputText @bind-Value="@attraction.Name" class="form-control" />
+        <ValidationMessage For="@(() => attraction.Name)" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Description: </label>
+      <div>
+        <InputText @bind-Value="@attraction.Description" class="form-control" />
+        <ValidationMessage For="@(() => attraction.Description)" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Place: </label>
+      <div>
+        <InputSelect @bind-Value="attraction.LocationID" class="form-control">
+          <option value="">-- Select Location --</option>
+          @if (Locations != null)
+  {
+    foreach (var location in Locations)
+    {
+    <option value="@location.Id">@location.Name</option>
+}
+}
+        </InputSelect>
+        <ValidationMessage For="@(() => attraction.LocationID)" w />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Place: </label>
+      <div>
+        <InputText @bind-Value="@attraction.ALocation" class="form-control" />
+        <ValidationMessage For="@(() => attraction.ALocation)" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Price: </label>
+      <div>
+        <InputNumber @bind-Value="@attraction.Price" class="form-control" />
+        <ValidationMessage For="@(() => attraction.Price)" />
+      </div>
+    </div>
 
-    @if (!Disabled) { 
-        <button type="submit" class="btn btn-success btn-block">
-        @ButtonText
-        </button>
-    }
+  </fieldset>
 
-    <BackToList Target="attractions" />
+  @if (!Disabled)
+  {
+    <button type="submit" class="btn btn-success btn-block">
+      @ButtonText
+    </button>
+  }
+
+  <BackToList Target="attractions" />
 </EditForm>
 
 
@@ -50,4 +69,16 @@
     [Parameter] public Attraction attraction { get; set; }
     [Parameter] public string ButtonText { get; set; } = "Save";
     [Parameter] public EventCallback OnValidSubmit { get; set; }
+
+  private IList<Country> Countries;
+  private IList<Location> Locations;
+
+
+  protected async override Task OnInitializedAsync()
+  {
+    Countries = await _client.GetFromJsonAsync<List<Country>>($"{Endpoint.CountryEndpoint}");
+    Locations = await _client.GetFromJsonAsync<List<Location>>($"{Endpoint.LocationEndpoint}");
+
+  }
+
 }

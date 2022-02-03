@@ -19,5 +19,6 @@ namespace Project.Client.Static
         public static readonly string ItenaryItemsEndpoint = $"{Prefix}/itenaryitems";
         public static readonly string LocationEndpoint = $"{Prefix}/locations";
         public static readonly string PaymentEndpoint = $"{Prefix}/payments";
-    }
+        public static readonly string AccountsEndpoint = $"{Prefix}/accounts";
+  }
 }
