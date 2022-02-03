@@ -38,17 +38,12 @@ else
         @foreach (var itenaryitem in ItenaryItems)
     {
         <tr>
-            <!--<td>@itenaryitem.Id</td>
-    <td>@itenaryitem.Price</td>
-    <td>@itenaryitem.Country.Name</td>
-    <td>@itenaryitem.Location.Name</td>
-    <td>@itenaryitem.Attraction.Name</td>
-    <td>@itenaryitem.Hotel.Name</td>-->
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
+            <td>@itenaryitem.Id</td>
+            <td>@itenaryitem.Price</td>
+            <td>@itenaryitem.Country.Name</td>
+            <td>@itenaryitem.Location.Name</td>
+            <td>@itenaryitem.Attraction.Name</td>
+            <td>@itenaryitem.Hotel.Name</td>
             <td>
                 <a href="/itenaryitems/view/@itenaryitem.Id" class="btn btn-primary">
                     <span class="oi oi-book"></span>

@@ -1,0 +1,54 @@
+﻿@inject HttpClient _client
+
+<EditForm Model="@itenaryitem" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <fieldset disbled="@Disabled">
+        <div class="form-group">
+            <label>Place: </label>
+            <div>
+                <InputSelect @bind-Value="itenaryitem.LocationId" class="form-control">
+                    <option value="">-- Select Location --</option>
+                    @if (Locations != null)
+                    {
+                        foreach (var location in Locations)
+                        {
+                            <option value="@location.Id">@location.Name</option>
+                        }
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(() => itenaryitem.LocationId)" />
+            </div>
+        </div>
+
+        
+
+    </fieldset>
+
+        @if (!Disabled)
+        {
+
+            <button type="submit" class="btn btn-success btn-block">
+                @ButtonText
+            </button>
+        }
+        <BackToList Target="itenaryitems" />
+</EditForm>
+
+
+@code {
+    [Parameter] public bool Disabled { get; set; } = false;
+    [Parameter] public ItenaryItem itenaryitem { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Save";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+
+
+    private IList<Location> Locations;
+
+    protected async override Task OnInitializedAsync()
+    {
+
+        Locations = await _client.GetFromJsonAsync<List<Location>>($"{Endpoint.LocationEndpoint}");
+    }
+
+}

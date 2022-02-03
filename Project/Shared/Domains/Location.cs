@@ -13,5 +13,7 @@ namespace Project.Shared.Domains
         public string Detail { get; set; }
 
         public virtual Country Country { get; set; }
-    }
+
+        public int CountryId { get; set; }
+  }
 }

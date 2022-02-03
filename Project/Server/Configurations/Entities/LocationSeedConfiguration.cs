@@ -22,6 +22,7 @@ namespace Project.Server.Configurations.Entities
                           "In fact it is one of the friendliest cities of India. The extreme energy and the fast paced life of the people here cannot be easily matched. " +
                           "The heart of Mumbai has some of the best and beautiful colonial architecture and if you venture out to the lesser known lanes, " +
                           "you will also come across several distinct bazaars, temples, fancy restaurants and a nightlife that is one of its kinds.",
+                          CountryId = 1,
                           DateCreated = DateTime.Now,
                           DateUpdated = DateTime.Now,
                           CreatedBy = "System",
@@ -38,6 +39,7 @@ namespace Project.Server.Configurations.Entities
                           "curation is less prescriptive and innovation is at an all-time high.",
                           DateCreated = DateTime.Now,
                           DateUpdated = DateTime.Now,
+                          CountryId = 2,
                           CreatedBy = "System",
                           UpdatedBy = "System"
                       },
@@ -53,6 +55,7 @@ namespace Project.Server.Configurations.Entities
                           " also foodies, night owls and those seeking a unique travel experience.",
                           DateCreated = DateTime.Now,
                           DateUpdated = DateTime.Now,
+                          CountryId = 3,
                           CreatedBy = "System",
                           UpdatedBy = "System"
                       },
@@ -68,6 +71,7 @@ namespace Project.Server.Configurations.Entities
                           "There are so many things to do in Cairo that you'll only be able to cover a sliver on one trip.",
                           DateCreated = DateTime.Now,
                           DateUpdated = DateTime.Now,
+                          CountryId = 4,
                           CreatedBy = "System",
                           UpdatedBy = "System"
 
