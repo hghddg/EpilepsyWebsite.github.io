@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
+
 namespace Project.Shared.Domains
 {
     public class ItenaryItem : BaseDomainModel,IValidatableObject
@@ -38,7 +39,7 @@ namespace Project.Shared.Domains
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-          if (LocationId != CountryId || HotelId != LocationId || AttractionId != LocationId)
+          if (Location.CountryId != Country.Id || HotelId != LocationId || AttractionId != LocationId)
           { 
                 yield return new ValidationResult("Ensure all the locations are in the same place");
           }
