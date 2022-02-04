@@ -37,6 +37,8 @@ namespace Project.Server.Data
         public DbSet<Payment> Payments { get; set; }
 
         public DbSet<Country> Country { get; set; }
+      
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

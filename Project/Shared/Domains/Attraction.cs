@@ -18,6 +18,6 @@ namespace Project.Shared.Domains
 
         public virtual Location Location { get; set; }
 
-        public int? LocationID { get; set; }
+        public int LocationID { get; set; }
     }
 }

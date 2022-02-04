@@ -8,6 +8,8 @@ namespace Project.Shared.Domains
 {
     public class Hotel : BaseDomainModel
     {
+
+        
         public string Name { get; set; }
 
         public double Rating { get; set; }

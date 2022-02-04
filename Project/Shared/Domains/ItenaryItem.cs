@@ -38,16 +38,9 @@ namespace Project.Shared.Domains
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-          if (CountryId != LocationId)
-          {
-            if (AttractionId != LocationId)
-            {
-              if (HotelId != LocationId)
-              {
-
+          if (LocationId != CountryId || HotelId != LocationId || AttractionId != LocationId)
+          { 
                 yield return new ValidationResult("Ensure all the locations are in the same place");
-              }
-            }
           }
         }
     }
