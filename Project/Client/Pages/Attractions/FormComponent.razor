@@ -1,4 +1,10 @@
 ﻿@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+@using System.Security.Claims
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject HttpInterceptorService _interceptor
+
 
 <EditForm Model="@attraction" OnValidSubmit="@OnValidSubmit">
   <DataAnnotationsValidator />
@@ -65,20 +71,27 @@
 
 
 @code {
-    [Parameter] public bool Disabled { get; set; } = false;
-    [Parameter] public Attraction attraction { get; set; }
-    [Parameter] public string ButtonText { get; set; } = "Save";
-    [Parameter] public EventCallback OnValidSubmit { get; set; }
+  [Parameter] public bool Disabled { get; set; } = false;
+  [Parameter] public Attraction attraction { get; set; }
+  [Parameter] public string ButtonText { get; set; } = "Save";
+  [Parameter] public EventCallback OnValidSubmit { get; set; }
 
   private IList<Country> Countries;
   private IList<Location> Locations;
 
+  private List<AppUser> AppUsers;
+  private string _currentUserId;
+  private string _currentUserName;
+  private string _currentUserRole;
 
   protected async override Task OnInitializedAsync()
   {
     Countries = await _client.GetFromJsonAsync<List<Country>>($"{Endpoint.CountryEndpoint}");
     Locations = await _client.GetFromJsonAsync<List<Location>>($"{Endpoint.LocationEndpoint}");
 
+    AppUsers = await _client.GetFromJsonAsync<List<AppUser>>($"{Endpoint.AccountsEndpoint}");
+    var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+    var user = authState.User;
   }
 
 }

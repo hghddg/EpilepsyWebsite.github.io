@@ -1,21 +1,50 @@
 ﻿@page "/attractions/create/"
 @inject HttpClient _client
 @inject NavigationManager _navManager
+@using System.Security.Claims
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
 
 <h3 class="card-title">Create New Attractions</h3>
 <hr />
 <br />
 
-<FormComponent ButtonText="Create Attraction" attraction ="attraction" OnValidSubmit="@CreateAttraction" />
+<FormComponent ButtonText="Create Attraction" attraction ="attraction" OnValidSubmit="@CreateAttraction" Disabled=button/>
 
 
     @code {
-        Attraction attraction = new Attraction();
+      Attraction attraction = new Attraction();
+      private List<AppUser> AppUsers;
+      private IEnumerable<Claim> _claims = Enumerable.Empty<Claim>();
+      private string _currentUserId;
+      private string _currentUserName;
+      private string _currentUserRole;
+      private bool button;
+      private string buttfunc;
+      private string adminonly;
 
-        private async Task CreateAttraction()
+      private async Task CreateAttraction()
+      {
+        await _client.PostAsJsonAsync(Endpoint.AttractionsEndpoint, attraction);
+        _navManager.NavigateTo("/attractions/");
+
+
+        AppUsers = await _client.GetFromJsonAsync<List<AppUser>>($"{Endpoint.AccountsEndpoint}");
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (_currentUserRole == "Administrator")
         {
-            await _client.PostAsJsonAsync(Endpoint.AttractionsEndpoint, attraction);
-            _navManager.NavigateTo("/attractions/");
+          bool button = false;
+          string buttfunc = "@CreateAttraction";
+          string adminonly = "Create Attraction";
         }
+        else {
+          bool button = true;
+          string buttfunc = "";
+          string adminonly = "Admin Only";
+        }
+      }
+
 
     }
