@@ -2,6 +2,7 @@
 @inject HttpClient _client
 @inject IJSRuntime js
 @attribute [Authorize]
+@implements IDisposable
 
 <h3 class="card-title">Booking For Itenary</h3>
 <br />
@@ -24,7 +25,7 @@
 
 else
 {
-    <table class="table table-responsive">
+    <table class="table table-responsive" id="bookingsTable">
         <thead>
             <tr>
                 <th>Booking Id</th>
@@ -80,6 +81,16 @@ else
 
         }
 
+    }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        await js.InvokeVoidAsync("AddDataTable", "#bookingsTable");
+    }
+
+    public void Dispose()
+    {
+        js.InvokeVoidAsync("DataTablesDispose", "#bookingsTable");
     }
 
 }

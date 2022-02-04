@@ -53,6 +53,7 @@ namespace Project.Server.Repository
             => _locations ??= new GenericRepository<Location>(_context);
         public IGenericRepository<Payment> Payments
             => _payments ??= new GenericRepository<Payment>(_context);
+
         public void Dispose()
         {
             _context.Dispose();
