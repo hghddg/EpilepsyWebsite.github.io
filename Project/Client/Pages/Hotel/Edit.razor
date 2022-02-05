@@ -1,25 +1,43 @@
 ﻿@page "/hotels/edit/{id:int}"
 @inject HttpClient _client
 @inject NavigationManager _navManager
-
+@inject AuthenticationStateProvider AuthenticationStateProvider
 <h3>Edit Hotel</h3>
 
-<FormComponent ButtonText="Update" OnValidSubmit="EditHotel" hotel="hotel" />
+<FormComponent ButtonText="Update" OnValidSubmit="EditHotel" hotel="hotel" Disabled=disabled/>
 
 @code {
 
-    [Parameter] public int id { get; set; }
-    Hotel hotel = new Hotel();
+  [Parameter] public int id { get; set; }
+  Hotel hotel = new Hotel();
+  private List<AppUser> AppUsers;
+  private string _currentUserId;
+  private string _currentUserName;
+  private string _currentUserRole;
+  private bool disabled;
 
-    protected async override Task OnParametersSetAsync()
+  protected async override Task OnParametersSetAsync()
+  {
+    hotel = await _client.GetFromJsonAsync<Hotel>($"{Endpoint.HotelEndpoint}/{id}");
+  }
+
+  async Task EditHotel()
+  {
+    await _client.PutAsJsonAsync($"{Endpoint.HotelEndpoint}/{id}", hotel);
+    _navManager.NavigateTo("/hotels/");
+  }
+  protected async override Task OnInitializedAsync()
+  {
+
+
+    AppUsers = await _client.GetFromJsonAsync<List<AppUser>>($"{Endpoint.AccountsEndpoint}");
+    var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+    var user = authState.User;
+
+    if (_currentUserRole != "Administrator")
     {
-        hotel = await _client.GetFromJsonAsync<Hotel>($"{Endpoint.HotelEndpoint}/{id}");
-    }
+      disabled = true;
 
-    async Task EditHotel()
-    {
-        await _client.PutAsJsonAsync($"{Endpoint.HotelEndpoint}/{id}", hotel);
-        _navManager.NavigateTo("/hotels/");
     }
-
+  }
 }

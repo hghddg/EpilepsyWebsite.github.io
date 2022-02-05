@@ -28,6 +28,10 @@
         _navManager.NavigateTo("/attractions/");
 
 
+
+      }
+      protected async override Task OnInitializedAsync()
+      {
         AppUsers = await _client.GetFromJsonAsync<List<AppUser>>($"{Endpoint.AccountsEndpoint}");
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
@@ -37,7 +41,9 @@
           bool button = false;
 
         }
+
       }
+
 
 
     }

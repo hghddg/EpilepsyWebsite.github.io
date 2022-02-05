@@ -8,18 +8,23 @@
 
 @code {
 
-    [Parameter] public int id { get; set; }
-    Location location = new Location();
+  [Parameter] public int id { get; set; }
+  Location location = new Location();
+  private List<AppUser> AppUsers;
+  private string _currentUserId;
+  private string _currentUserName;
+  private string _currentUserRole;
+  private bool disabled;
 
-    protected async override Task OnParametersSetAsync()
-    {
-        location = await _client.GetFromJsonAsync<Location>($"{Endpoint.LocationEndpoint}/{id}");
-    }
+  protected async override Task OnParametersSetAsync()
+  {
+    location = await _client.GetFromJsonAsync<Location>($"{Endpoint.LocationEndpoint}/{id}");
+  }
 
-    async Task EditLocation()
-    {
-        await _client.PutAsJsonAsync($"{Endpoint.LocationEndpoint}/{id}", location);
-        _navManager.NavigateTo("/locations/");
-    }
+  async Task EditLocation()
+  {
+    await _client.PutAsJsonAsync($"{Endpoint.LocationEndpoint}/{id}", location);
+    _navManager.NavigateTo("/locations/");
+  }
 
 }

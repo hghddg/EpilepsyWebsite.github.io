@@ -1,25 +1,43 @@
 ﻿@page "/countries/edit/{id:int}"
 @inject HttpClient _client
 @inject NavigationManager _navManager
-
+@inject AuthenticationStateProvider AuthenticationStateProvider
 <h3>Edit Country</h3>
 
-<FormComponent ButtonText="Update" OnValidSubmit="EditCountry" country="country" />
+<FormComponent ButtonText="Update" OnValidSubmit="EditCountry" country="country" Disabled=disabled/>
 
 @code {
 
-    [Parameter] public int id { get; set; }
-    Country country = new Country();
+  [Parameter] public int id { get; set; }
+  Country country = new Country();
+  private List<AppUser> AppUsers;
+  private string _currentUserId;
+  private string _currentUserName;
+  private string _currentUserRole;
+  private bool disabled;
 
-    protected async override Task OnParametersSetAsync()
+  protected async override Task OnParametersSetAsync()
+  {
+    country = await _client.GetFromJsonAsync<Country>($"{Endpoint.CountryEndpoint}/{id}");
+  }
+
+  async Task EditCountry()
+  {
+    await _client.PutAsJsonAsync($"{Endpoint.CountryEndpoint}/{id}", country);
+    _navManager.NavigateTo("/countries/");
+  }
+  protected async override Task OnInitializedAsync()
+  {
+
+
+    AppUsers = await _client.GetFromJsonAsync<List<AppUser>>($"{Endpoint.AccountsEndpoint}");
+    var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+    var user = authState.User;
+
+    if (_currentUserRole != "Administrator")
     {
-        country = await _client.GetFromJsonAsync<Country>($"{Endpoint.CountryEndpoint}/{id}");
-    }
+      disabled = true;
 
-    async Task EditCountry()
-    {
-        await _client.PutAsJsonAsync($"{Endpoint.CountryEndpoint}/{id}", country);
-        _navManager.NavigateTo("/countries/");
     }
-
+  }
 }

@@ -3,13 +3,13 @@
 @inject IJSRuntime js
 @attribute [Authorize]
 @implements IDisposable
-
+@inject AuthenticationStateProvider AuthenticationStateProvider
 <h3 class="card-title">Country For Itenary</h3>
 <br />
 
 <a href="/countries/create" class="btn btn-secondary">
     <span class="oi oi-plus"></span>
-    Create New Country
+    @admin
 </a>
 <br />
 <br />
@@ -42,10 +42,10 @@ else
                         <a href="/countries/view/@country.Id" class="btn btn-primary">
                             <span class="oi oi-book"></span>
                         </a>
-                        <a href="/countries/edit/@country.Id" class="btn btn-primary">
+                        <a href="/countries/edit/@country.Id" class="btn btn-primary" hidden =hide>
                             <span class="oi oi-pencil"></span>
                         </a>
-                        <button class="btn btn-danger" @onclick="@(()=>Delete (country.Id))">
+                        <button class="btn btn-danger" @onclick="@(()=>Delete (country.Id))" hidden =hide>
                             <span class="oi oi-delete"></span>
                         </button>
                     </td>
@@ -59,34 +59,58 @@ else
 
 @code {
 
-    private List<Country> Countries;
+  private List<Country> Countries;
+  private List<AppUser> AppUsers;
+  private string _currentUserId;
+  private string _currentUserName;
+  private string _currentUserRole;
+  private string hide;
+  private string admin = "Create New Country";
 
-    protected async override Task OnInitializedAsync()
+  protected async override Task OnInitializedAsync()
+  {
+    Countries = await _client.GetFromJsonAsync<List<Country>>($"{Endpoint.CountryEndpoint}");
+
+    AppUsers = await _client.GetFromJsonAsync<List<AppUser>>($"{Endpoint.AccountsEndpoint}");
+    var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+    var user = authState.User;
+
+    if (_currentUserRole != "Administrator")
     {
-        Countries = await _client.GetFromJsonAsync<List<Country>>($"{Endpoint.CountryEndpoint}");
-    }
+      hide = "hidden";
+      admin = "Admin Only";
 
-    async Task Delete(int countryId)
+    }
+  }
+
+
+  async Task Delete(int countryId)
+  {
+    if (_currentUserRole != "Administrator")
     {
-        var country = Countries.First(q => q.Id == countryId);
-        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {country.Name}?");
-        if (confirm)
-        {
-            await _client.DeleteAsync($"{Endpoint.CountryEndpoint}/{countryId}");
-            await OnInitializedAsync();
 
-        }
 
+
+      var country = Countries.First(q => q.Id == countryId);
+      var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {country.Name}?");
+      if (confirm)
+      {
+
+        await _client.DeleteAsync($"{Endpoint.CountryEndpoint}/{countryId}");
+        await OnInitializedAsync();
+
+      }
     }
+  }
 
-    protected async override Task OnAfterRenderAsync(bool firstRender)
-    {
-        await js.InvokeVoidAsync("AddDataTable", "#countriesTable");
-    }
+  protected async override Task OnAfterRenderAsync(bool firstRender)
+  {
+    await js.InvokeVoidAsync("AddDataTable", "#countriesTable");
+  }
 
-    public void Dispose()
-    {
-        js.InvokeVoidAsync("DataTablesDispose", "#countriesTable");
-    }
+  public void Dispose()
+  {
+    js.InvokeVoidAsync("DataTablesDispose", "#countriesTable");
+  }
 
 }

@@ -1,23 +1,42 @@
 ﻿@page "/hotels/create/"
 @inject HttpClient _client
 @inject NavigationManager _navManager
-
+@using System.Security.Claims
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <h3 class="card-title">Create New Hotels</h3>
 <hr />
 <br />
 
-<FormComponent ButtonText="Create Hotel" hotel="hotel" OnValidSubmit="@CreateHotel" />
+<FormComponent ButtonText="Create Hotel" hotel="hotel" OnValidSubmit="@CreateHotel" Disabled=button/>
 
 
 @code {
 
-    Hotel hotel = new Hotel();
+  Hotel hotel = new Hotel();
+  private List<AppUser> AppUsers;
+  private IEnumerable<Claim> _claims = Enumerable.Empty<Claim>();
+  private string _currentUserId;
+  private string _currentUserName;
+  private string _currentUserRole;
+  private bool button = true;
 
-    private async Task CreateHotel()
+  private async Task CreateHotel()
+  {
+    await _client.PostAsJsonAsync(Endpoint.HotelEndpoint, hotel);
+    _navManager.NavigateTo("/hotels/");
+  }
+  protected async override Task OnInitializedAsync()
+  {
+    AppUsers = await _client.GetFromJsonAsync<List<AppUser>>($"{Endpoint.AccountsEndpoint}");
+    var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+    var user = authState.User;
+
+    if (_currentUserRole == "Administrator")
     {
-        await _client.PostAsJsonAsync(Endpoint.HotelEndpoint, hotel);
-        _navManager.NavigateTo("/hotels/");
+      bool button = false;
+
     }
 
+  }
 }

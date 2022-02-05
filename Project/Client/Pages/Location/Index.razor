@@ -3,14 +3,14 @@
 @inject IJSRuntime js
 @attribute [Authorize]
 @implements IDisposable
-
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <h3 class="card-title">Location For Itenary</h3>
 <br />
 
 <a href="/locations/create" class="btn btn-secondary">
     <span class="oi oi-plus"></span>
-    Create New Location
+    @admin
 </a>
 <br />
 <br />
@@ -44,10 +44,10 @@ else
                         <a href="/locations/view/@location.Id" class="btn btn-primary">
                             <span class="oi oi-book"></span>
                         </a>
-                        <a href="/locations/edit/@location.Id" class="btn btn-primary">
+                        <a href="/locations/edit/@location.Id" class="btn btn-primary" hidden =hide>
                             <span class="oi oi-pencil"></span>
                         </a>
-                        <button class="btn btn-danger" @onclick="@(()=>Delete (location.Id))">
+                        <button class="btn btn-danger" @onclick="@(()=>Delete (location.Id))" hidden =hide>
                             <span class="oi oi-delete"></span>
                         </button>
                     </td>
@@ -61,34 +61,52 @@ else
 
 @code {
 
-    private List<Location> Locations;
+  private List<Location> Locations;
+  private List<AppUser> AppUsers;
+  private string _currentUserId;
+  private string _currentUserName;
+  private string _currentUserRole;
+  private string hide;
+  private string admin = "Create New Location";
 
-    protected async override Task OnInitializedAsync()
+  protected async override Task OnInitializedAsync()
+  {
+    Locations = await _client.GetFromJsonAsync<List<Location>>($"{Endpoint.LocationEndpoint}");
+    AppUsers = await _client.GetFromJsonAsync<List<AppUser>>($"{Endpoint.AccountsEndpoint}");
+    var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+    var user = authState.User;
+
+    if (_currentUserRole != "Administrator")
     {
-        Locations = await _client.GetFromJsonAsync<List<Location>>($"{Endpoint.LocationEndpoint}");
-    }
+      hide = "hidden";
+      admin = "Admin Only";
 
-    async Task Delete(int locationId)
+    }
+  }
+
+  async Task Delete(int locationId)
+  {
+    if (_currentUserRole != "Administrator")
     {
-        var location = Locations.First(q => q.Id == locationId);
-        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {location.Id}?");
-        if (confirm)
-        {
-            await _client.DeleteAsync($"{Endpoint.LocationEndpoint}/{locationId}");
-            await OnInitializedAsync();
+      var location = Locations.First(q => q.Id == locationId);
+      var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {location.Id}?");
+      if (confirm)
+      {
+        await _client.DeleteAsync($"{Endpoint.LocationEndpoint}/{locationId}");
+        await OnInitializedAsync();
 
-        }
-
+      }
     }
+  }
 
-    protected async override Task OnAfterRenderAsync(bool firstRender)
-    {
-        await js.InvokeVoidAsync("AddDataTable", "#locationTable");
-    }
+  protected async override Task OnAfterRenderAsync(bool firstRender)
+  {
+    await js.InvokeVoidAsync("AddDataTable", "#locationTable");
+  }
 
-    public void Dispose()
-    {
-        js.InvokeVoidAsync("DataTablesDispose", "#locationTable");
-    }
+  public void Dispose()
+  {
+    js.InvokeVoidAsync("DataTablesDispose", "#locationTable");
+  }
 
 }
