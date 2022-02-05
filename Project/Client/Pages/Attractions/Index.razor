@@ -3,13 +3,13 @@
 @inject IJSRuntime js
 @attribute [Authorize]
 @implements IDisposable
-
+@inject AuthenticationStateProvider AuthenticationStateProvider
 <h3 class="card-title">Attractions For Itenary</h3>
 <br />
 
 <a href="/attractions/create" class="btn btn-secondary">
-    <span class="oi oi-plus"></span>
-    Create New Attraction
+  <span class="oi oi-plus"></span>
+  @admin
 </a>
 <br />
 <br />
@@ -17,78 +17,101 @@
 @if (Attractions == null)
 {
 
-    <div class="alert alert-info">Loading Attractions...</div>
+  <div class="alert alert-info">Loading Attractions...</div>
 
 }
 else
 {
-    <table class="table table-responsive" id="attractionsTable">
-        <thead>
-            <tr>
-                <th>Attraction Id</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Place</th>
-                <th>Price</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var attraction in Attractions)
-            {
-                    <tr>
-                        <td>@attraction.Id</td>
-                        <td>@attraction.Name</td>
-                        <td>@attraction.Description</td>
-                        <td>@attraction.ALocation</td>
-                        <td>@attraction.Price</td>
-                        <td>
-                            <a href="/attractions/view/@attraction.Id" class="btn btn-primary">
-                                <span class="oi oi-book"></span>
-                            </a>
-                            <a href="/attractions/edit/@attraction.Id" class="btn btn-primary">
-                                <span class="oi oi-pencil"></span>
-                            </a>
-                            <button class="btn btn-danger" @onclick="@(()=>Delete (attraction.Id))">
-                                <span class="oi oi-delete"></span>
-                            </button>
-                        </td>
-                    </tr>
-            }
-
+  <table class="table table-responsive" id="attractionsTable">
+    <thead>
+      <tr>
+        <th>Attraction Id</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Place</th>
+        <th>Price</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var attraction in Attractions)
+      {
+        <tr>
+          <td>@attraction.Id</td>
+          <td>@attraction.Name</td>
+          <td>@attraction.Description</td>
+          <td>@attraction.ALocation</td>
+          <td>@attraction.Price</td>
+          <td>
             
-        </tbody>
-    </table>
+            <a href="/attractions/view/@attraction.Id" class="btn btn-primary">
+              <span class="oi oi-book"></span>
+            </a>
+            <a href="/attractions/edit/@attraction.Id" class="btn btn-primary" hidden ="hide">
+              <span class="oi oi-pencil"></span>
+            </a>
+            <button class="btn btn-danger" @onclick="@(()=>Delete (attraction.Id))"hidden ="hide">
+              <span class="oi oi-delete"></span>
+            </button>
+
+          </td>
+        </tr>
+      }
+
+
+    </tbody>
+  </table>
 }
 
 @code {
-    private List<Attraction> Attractions;
+  private List<Attraction> Attractions;
+  private List<AppUser> AppUsers;
+  private string _currentUserId;
+  private string _currentUserName;
+  private string _currentUserRole;
+  private string hide;
+  private string admin = "Create New Attraction";
 
-    protected async override Task OnInitializedAsync()
+  protected async override Task OnInitializedAsync()
+  {
+    Attractions = await _client.GetFromJsonAsync<List<Attraction>>($"{Endpoint.AttractionsEndpoint}");
+
+    AppUsers = await _client.GetFromJsonAsync<List<AppUser>>($"{Endpoint.AccountsEndpoint}");
+    var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+    var user = authState.User;
+
+    if (_currentUserRole != "Administrator")
     {
-        Attractions = await _client.GetFromJsonAsync<List<Attraction>>($"{Endpoint.AttractionsEndpoint}");
+      hide = "hidden";
+      admin = "Admin Only";
+
     }
+  }
 
-    async Task Delete(int attractionId)
-    {
-        var attraction = Attractions.First(q => q.Id == attractionId);
-        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {attraction.Id}?");
-        if (confirm)
-        {
-            await _client.DeleteAsync($"{Endpoint.AttractionsEndpoint}/{attractionId}");
-            await OnInitializedAsync();
+  async Task Delete(int attractionId)
+  {
+    if (_currentUserRole != "Administrator") 
+    { 
+      var attraction = Attractions.First(q => q.Id == attractionId);
+      var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {attraction.Id}?");
+      if (confirm)
+      {
+        await _client.DeleteAsync($"{Endpoint.AttractionsEndpoint}/{attractionId}");
+        await OnInitializedAsync();
 
-        }
+      }
     }
+  }
 
-    protected async override Task OnAfterRenderAsync(bool firstRender)
-    {
-        await js.InvokeVoidAsync("AddDataTable", "#attractionsTable");
-    }
+  protected async override Task OnAfterRenderAsync(bool firstRender)
+  {
+    await js.InvokeVoidAsync("AddDataTable", "#attractionsTable");
+  }
 
-    public void Dispose()
-    {
-        js.InvokeVoidAsync("DataTablesDispose", "#attractionsTable");
-    }
+  public void Dispose()
+  {
+    js.InvokeVoidAsync("DataTablesDispose", "#attractionsTable");
+  }
 
-            }
+}
+

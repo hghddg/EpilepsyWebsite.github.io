@@ -84,6 +84,7 @@
   private string _currentUserName;
   private string _currentUserRole;
 
+
   protected async override Task OnInitializedAsync()
   {
     Countries = await _client.GetFromJsonAsync<List<Country>>($"{Endpoint.CountryEndpoint}");
@@ -93,5 +94,6 @@
     var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
     var user = authState.User;
   }
+
 
 }

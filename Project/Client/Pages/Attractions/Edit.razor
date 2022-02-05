@@ -1,24 +1,46 @@
 ﻿@page "/attractions/edit/{id:int}"
 @inject HttpClient _client
 @inject NavigationManager _navManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <h3>Edit Attraction</h3>
 
-<FormComponent ButtonText="Update" OnValidSubmit="EditAttraction" attraction="attraction" />
+<FormComponent ButtonText="Update" OnValidSubmit="EditAttraction" attraction="attraction" Disabled=disabled />
 
 @code {
 
-        [Parameter] public int id { get; set; }
-        Attraction attraction = new Attraction();
+  [Parameter] public int id { get; set; }
+  Attraction attraction = new Attraction();
+  private List<AppUser> AppUsers;
+  private string _currentUserId;
+  private string _currentUserName;
+  private string _currentUserRole;
+  private bool disabled;
 
-    protected async override Task OnParametersSetAsync()
-    {
-        attraction = await _client.GetFromJsonAsync<Attraction>($"{Endpoint.AttractionsEndpoint}/{id}");
-    }
+  protected async override Task OnParametersSetAsync()
+  {
+    attraction = await _client.GetFromJsonAsync<Attraction>($"{Endpoint.AttractionsEndpoint}/{id}");
+  }
 
-    async Task EditAttraction()
+  async Task EditAttraction()
+  {
+    await _client.PutAsJsonAsync($"{Endpoint.AttractionsEndpoint}/{id}", attraction);
+    _navManager.NavigateTo("/attractions/");
+  }
+  protected async override Task OnInitializedAsync()
+  {
+
+
+    AppUsers = await _client.GetFromJsonAsync<List<AppUser>>($"{Endpoint.AccountsEndpoint}");
+    var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+    var user = authState.User;
+
+    if (_currentUserRole != "Administrator")
     {
-        await _client.PutAsJsonAsync($"{Endpoint.AttractionsEndpoint}/{id}", attraction);
-        _navManager.NavigateTo("/attractions/");
+      disabled = true;
+
     }
+  }
+
+
 }

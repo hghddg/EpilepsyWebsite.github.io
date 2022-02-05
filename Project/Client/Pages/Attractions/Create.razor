@@ -19,9 +19,8 @@
       private string _currentUserId;
       private string _currentUserName;
       private string _currentUserRole;
-      private bool button;
-      private string buttfunc;
-      private string adminonly;
+      private bool button = true;
+
 
       private async Task CreateAttraction()
       {
@@ -36,13 +35,7 @@
         if (_currentUserRole == "Administrator")
         {
           bool button = false;
-          string buttfunc = "@CreateAttraction";
-          string adminonly = "Create Attraction";
-        }
-        else {
-          bool button = true;
-          string buttfunc = "";
-          string adminonly = "Admin Only";
+
         }
       }
 
