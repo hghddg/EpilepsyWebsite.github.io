@@ -83,10 +83,12 @@ else
     }
 
   }
+
   protected async override Task OnAfterRenderAsync(bool firstRender)
   {
     await js.InvokeVoidAsync("AddDataTable", "#itenaryitemsTable");
   }
+
   public void Dispose()
   {
     js.InvokeVoidAsync("DataTablesDispose", "#itenaryitemsTable");
