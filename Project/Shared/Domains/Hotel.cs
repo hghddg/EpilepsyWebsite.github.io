@@ -18,8 +18,6 @@ namespace Project.Shared.Domains
 
         public string HLocation { get; set; }
 
-        public float Price { get; set; }
-
         public virtual Location Location { get; set; }
 
         public int LocationID { get; set; }

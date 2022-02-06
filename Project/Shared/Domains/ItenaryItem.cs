@@ -11,7 +11,6 @@ namespace Project.Shared.Domains
     public class ItenaryItem : BaseDomainModel,IValidatableObject
     {
         public DateTime Dateofhol{ get; set; }
-        public float Price { get; set; }
 
         public virtual Country Country { get; set; }
 
