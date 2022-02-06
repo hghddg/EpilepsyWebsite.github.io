@@ -3,13 +3,13 @@
 @inject IJSRuntime js
 @attribute [Authorize]
 @implements IDisposable
-
+@inject AuthenticationStateProvider AuthenticationStateProvider
 <h3 class="card-title">Payment For Itenary</h3>
 <br />
 
 <a href="/payments/create" class="btn btn-secondary">
     <span class="oi oi-plus"></span>
-    Create New Payment
+    @admin
 </a>
 <br />
 <br />
@@ -47,10 +47,10 @@ else
                         <a href="/payments/view/@payment.Id" class="btn btn-primary">
                             <span class="oi oi-book"></span>
                         </a>
-                        <a href="/payments/edit/@payment.Id" class="btn btn-primary">
+                        <a href="/payments/edit/@payment.Id" class="btn btn-primary" hidden =hide>
                             <span class="oi oi-pencil"></span>
                         </a>
-                        <button class="btn btn-danger" @onclick="@(()=>Delete (payment.Id))">
+                        <button class="btn btn-danger" @onclick="@(()=>Delete (payment.Id))" hidden =hide>
                             <span class="oi oi-delete"></span>
                         </button>
                     </td>
@@ -65,34 +65,51 @@ else
 
 @code {
 
-    private List<Payment> Payments;
+  private List<Payment> Payments;
+  private List<AppUser> AppUsers;
+  private string _currentUserId;
+  private string _currentUserName;
+  private string _currentUserRole;
+  private string hide;
+  private string admin = "Create New Payment Option";
+  protected async override Task OnInitializedAsync()
+  {
+    Payments = await _client.GetFromJsonAsync<List<Payment>>($"{Endpoint.PaymentEndpoint}");
+    AppUsers = await _client.GetFromJsonAsync<List<AppUser>>($"{Endpoint.AccountsEndpoint}");
+    var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+    var user = authState.User;
 
-    protected async override Task OnInitializedAsync()
+    if (_currentUserRole != "Administrator")
     {
-        Payments = await _client.GetFromJsonAsync<List<Payment>>($"{Endpoint.PaymentEndpoint}");
-    }
+      hide = "hidden";
+      admin = "Admin Only";
 
-    async Task Delete(int paymentId)
+    }
+  }
+
+  async Task Delete(int paymentId)
+  {
+    if (_currentUserRole != "Administrator")
     {
-        var payment = Payments.First(q => q.Id == paymentId);
-        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {payment.Id}?");
-        if (confirm)
-        {
-            await _client.DeleteAsync($"{Endpoint.PaymentEndpoint}/{paymentId}");
-            await OnInitializedAsync();
+      var payment = Payments.First(q => q.Id == paymentId);
+      var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {payment.Id}?");
+      if (confirm)
+      {
+        await _client.DeleteAsync($"{Endpoint.PaymentEndpoint}/{paymentId}");
+        await OnInitializedAsync();
 
-        }
-
+      }
     }
+  }
 
-    protected async override Task OnAfterRenderAsync(bool firstRender)
-    {
-        await js.InvokeVoidAsync("AddDataTable", "#paymentTable");
-    }
+  protected async override Task OnAfterRenderAsync(bool firstRender)
+  {
+    await js.InvokeVoidAsync("AddDataTable", "#paymentTable");
+  }
 
-    public void Dispose()
-    {
-        js.InvokeVoidAsync("DataTablesDispose", "#paymentTable");
-    }
+  public void Dispose()
+  {
+    js.InvokeVoidAsync("DataTablesDispose", "#paymentTable");
+  }
 
 }

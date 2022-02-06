@@ -1,10 +1,10 @@
 ﻿@page "/locations/edit/{id:int}"
 @inject HttpClient _client
 @inject NavigationManager _navManager
-
+@inject AuthenticationStateProvider AuthenticationStateProvider
 <h3>Edit Location</h3>
 
-<FormComponent ButtonText="Update" OnValidSubmit="EditLocation" location="location" />
+<FormComponent ButtonText="Update" OnValidSubmit="EditLocation" location="location" Disabled=disabled />
 
 @code {
 
@@ -26,5 +26,18 @@
     await _client.PutAsJsonAsync($"{Endpoint.LocationEndpoint}/{id}", location);
     _navManager.NavigateTo("/locations/");
   }
+  protected async override Task OnInitializedAsync()
+  {
 
+
+    AppUsers = await _client.GetFromJsonAsync<List<AppUser>>($"{Endpoint.AccountsEndpoint}");
+    var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+    var user = authState.User;
+
+    if (_currentUserRole != "Administrator")
+    {
+      disabled = true;
+
+    }
+  }
 }
