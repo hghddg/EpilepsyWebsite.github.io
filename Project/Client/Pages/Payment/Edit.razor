@@ -1,25 +1,44 @@
 ﻿@page "/payments/edit/{id:int}"
 @inject HttpClient _client
 @inject NavigationManager _navManager
-
+@inject AuthenticationStateProvider AuthenticationStateProvider
 <h3>Edit Payment</h3>
 
-<FormComponent ButtonText="Update" OnValidSubmit="EditPayment" payment="payment" />
+<FormComponent ButtonText="Update" OnValidSubmit="EditPayment" payment="payment" Disabled=disabled />
 
 @code {
 
-    [Parameter] public int id { get; set; }
-    Payment payment = new Payment();
+  [Parameter] public int id { get; set; }
+  Payment payment = new Payment();
+  private List<AppUser> AppUsers;
+  private string _currentUserId;
+  private string _currentUserName;
+  private string _currentUserRole;
+  private bool disabled;
 
-    protected async override Task OnParametersSetAsync()
-    {
-        payment = await _client.GetFromJsonAsync<Payment>($"{Endpoint.PaymentEndpoint}/{id}");
-    }
+  protected async override Task OnParametersSetAsync()
+  {
+    payment = await _client.GetFromJsonAsync<Payment>($"{Endpoint.PaymentEndpoint}/{id}");
+  }
 
-    async Task EditPayment()
+  async Task EditPayment()
+  {
+    await _client.PutAsJsonAsync($"{Endpoint.PaymentEndpoint}/{id}", payment);
+    _navManager.NavigateTo("/payments/");
+  }
+  protected async override Task OnInitializedAsync()
+  {
+
+
+    AppUsers = await _client.GetFromJsonAsync<List<AppUser>>($"{Endpoint.AccountsEndpoint}");
+    var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+    var user = authState.User;
+
+    if (_currentUserRole != "Administrator")
     {
-        await _client.PutAsJsonAsync($"{Endpoint.PaymentEndpoint}/{id}", payment);
-        _navManager.NavigateTo("/payments/");
+      disabled = true;
+
     }
+  }
 
 }
