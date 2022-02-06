@@ -17,11 +17,8 @@ namespace Project.Server.Repository
     {
         private readonly ApplicationDbContext _context;
         private IGenericRepository<Attraction> _attractions;
-        private IGenericRepository<Booking> _bookings;
-        private IGenericRepository<Customer> _customers;
         private IGenericRepository<Country> _countries;
         private IGenericRepository<Hotel> _hotels;
-        private IGenericRepository<Itenary> _itenaries;
         private IGenericRepository<ItenaryItem> _itenaryitems;
         private IGenericRepository<Location> _locations;
         private IGenericRepository<Payment> _payments;
@@ -38,15 +35,9 @@ namespace Project.Server.Repository
         public IGenericRepository<Attraction> Attractions
             => _attractions ??= new GenericRepository<Attraction>(_context);
         public IGenericRepository<Country> Countries
-            => _countries ??= new GenericRepository<Country>(_context);
-        public IGenericRepository<Booking> Bookings
-            => _bookings ??= new GenericRepository<Booking>(_context);
-        public IGenericRepository<Customer> Customers
-            => _customers ??= new GenericRepository<Customer>(_context);
+            => _countries ??= new GenericRepository<Country>(_context);      
         public IGenericRepository<Hotel> Hotels
             => _hotels ??= new GenericRepository<Hotel>(_context);
-        public IGenericRepository<Itenary> Itenaries
-            => _itenaries ??= new GenericRepository<Itenary>(_context);
         public IGenericRepository<ItenaryItem> ItenaryItems
             => _itenaryitems ??= new GenericRepository<ItenaryItem>(_context);
         public IGenericRepository<Location> Locations

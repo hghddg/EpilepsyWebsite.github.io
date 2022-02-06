@@ -27,8 +27,10 @@ else
         <thead>
             <tr>
                 <th>Payment Id</th>
+                <th>Plan</th>
                 <th>Amount</th>
-                <th>Type</th>
+                <th>Description</th>
+                <th>Payment Type</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -37,7 +39,9 @@ else
             {
                 <tr>
                     <td>@payment.Id</td>
+                    <td>@payment.Plan</td>
                     <td>@payment.Amount</td>
+                    <td>@payment.Description</td>
                     <td>@payment.Type</td>
                     <td>
                         <a href="/payments/view/@payment.Id" class="btn btn-primary">

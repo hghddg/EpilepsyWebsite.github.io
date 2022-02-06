@@ -84,6 +84,23 @@
             </div>
         </div>
 
+        <div class="form-group">
+            <label>Payment: </label>
+            <div>
+                <InputSelect @bind-Value="itenaryitem.PaymentId" class="form-control">
+                    <option value="">-- Select Payment --</option>
+                    @if (Payments != null)
+                    {
+                        foreach (var payment in Payments)
+                        {
+                            <option value="@payment.Id">@payment.Plan</option>
+                        }
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(() => itenaryitem.PaymentId)" />
+            </div>
+        </div>
+
     </fieldset>
 
         @if (!Disabled)
@@ -98,61 +115,63 @@
 
 
 @code {
-  [Parameter] public bool Disabled { get; set; } = false;
-  [Parameter] public ItenaryItem itenaryitem { get; set; }
-  [Parameter] public string ButtonText { get; set; } = "Save";
-  [Parameter] public EventCallback OnValidSubmit { get; set; }
+    [Parameter] public bool Disabled { get; set; } = false;
+    [Parameter] public ItenaryItem itenaryitem { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Save";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
 
-  private IList<Country> Countries;
-  private IList<Location> Locations;
-  private IList<Attraction> Attractions;
-  private IList<Hotel> Hotels;
+    private IList<Country> Countries;
+    private IList<Location> Locations;
+    private IList<Attraction> Attractions;
+    private IList<Hotel> Hotels;
+    private IList<Payment> Payments;
 
-  private List<AppUser> AppUsers;
-  private IEnumerable<Claim> _claims = Enumerable.Empty<Claim>();
-  private string _currentUserId;
-  private string _currentUserName;
-  private string _currentUserRole;
+    private List<AppUser> AppUsers;
+    private IEnumerable<Claim> _claims = Enumerable.Empty<Claim>();
+    private string _currentUserId;
+    private string _currentUserName;
+    private string _currentUserRole;
 
 
-  protected async override Task OnInitializedAsync()
-  {
-    Countries = await _client.GetFromJsonAsync<List<Country>>($"{Endpoint.CountryEndpoint}");
-    Locations = await _client.GetFromJsonAsync<List<Location>>($"{Endpoint.LocationEndpoint}");
-    Attractions = await _client.GetFromJsonAsync<List<Attraction>>($"{Endpoint.AttractionsEndpoint}");
-    Hotels = await _client.GetFromJsonAsync<List<Hotel>>($"{Endpoint.HotelEndpoint}");
-
-    AppUsers = await _client.GetFromJsonAsync<List<AppUser>>($"{Endpoint.AccountsEndpoint}");
-    var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-    var user = authState.User;
-
-    if (user.Identity.IsAuthenticated)
+    protected async override Task OnInitializedAsync()
     {
-      _claims = user.Claims;
-      //_currentUserName = user.Identity.Name;
-      if (_claims.Count() > 0)
-      {
-        foreach (var claim in _claims)
+        Countries = await _client.GetFromJsonAsync<List<Country>>($"{Endpoint.CountryEndpoint}");
+        Locations = await _client.GetFromJsonAsync<List<Location>>($"{Endpoint.LocationEndpoint}");
+        Attractions = await _client.GetFromJsonAsync<List<Attraction>>($"{Endpoint.AttractionsEndpoint}");
+        Hotels = await _client.GetFromJsonAsync<List<Hotel>>($"{Endpoint.HotelEndpoint}");
+        Payments = await _client.GetFromJsonAsync<List<Payment>>($"{Endpoint.PaymentEndpoint}");
+
+        AppUsers = await _client.GetFromJsonAsync<List<AppUser>>($"{Endpoint.AccountsEndpoint}");
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
         {
-          if (claim.Type == "sub")
-          {
-            _currentUserId = claim.Value;
-            continue;
+            _claims = user.Claims;
+            //_currentUserName = user.Identity.Name;
+            if (_claims.Count() > 0)
+            {
+                foreach (var claim in _claims)
+                {
+                    if (claim.Type == "sub")
+                    {
+                        _currentUserId = claim.Value;
+                        continue;
 
-          }
-          if (claim.Type == "name")
-          {
-            _currentUserName = claim.Value;
-            continue;
-          }
+                    }
+                    if (claim.Type == "name")
+                    {
+                        _currentUserName = claim.Value;
+                        continue;
+                    }
+                }
+            }
         }
-      }
-    }
 
-    if (_currentUserId != String.Empty)
-    {
-      _currentUserRole = await _client.GetStringAsync($"{Endpoint.AccountsEndpoint}/{_currentUserId}");
+        if (_currentUserId != String.Empty)
+        {
+            _currentUserRole = await _client.GetStringAsync($"{Endpoint.AccountsEndpoint}/{_currentUserId}");
+        }
     }
-  }
 
 }

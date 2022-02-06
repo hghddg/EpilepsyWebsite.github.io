@@ -22,13 +22,7 @@ namespace Project.Server.Data
 
         public DbSet<Attraction> Attractions { get; set; }
 
-        public DbSet<Booking> Boookings { get; set; }
-
-        public DbSet<Customer> Customers { get; set; }
-
         public DbSet<Hotel> Hotels { get; set; }
-
-        public DbSet<Itenary> Itenaries { get; set; }
 
         public DbSet<ItenaryItem> ItenaryItems { get; set; }
 
@@ -51,6 +45,8 @@ namespace Project.Server.Data
             builder.ApplyConfiguration(new HotelSeedConfiguration());
 
             builder.ApplyConfiguration(new LocationSeedConfiguration());
+
+            builder.ApplyConfiguration(new PaymentSeedConfiguration());
 
             builder.ApplyConfiguration(new RoleSeedConfiguration());
 

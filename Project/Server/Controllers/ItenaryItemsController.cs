@@ -37,7 +37,7 @@ namespace Project.Server.Controllers
         {
             //Refactored
             //return await _context.ItenaryItems.ToListAsync();
-            var ItenaryItems = await _unitOfWork.ItenaryItems.GetAll(includes: q => q.Include(x => x.Attraction).Include(x => x.Hotel).Include(x => x.Location).Include(x => x.Country));
+            var ItenaryItems = await _unitOfWork.ItenaryItems.GetAll(includes: q => q.Include(x => x.Attraction).Include(x => x.Hotel).Include(x => x.Location).Include(x => x.Country).Include(x => x.Payment));
             return Ok(ItenaryItems);
             
         }

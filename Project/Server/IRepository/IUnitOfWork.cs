@@ -11,11 +11,8 @@ namespace Project.Server.IRepository
     {
         Task Save(HttpContext httpContext);
         IGenericRepository<Attraction> Attractions { get; }
-        IGenericRepository<Booking> Bookings { get; }
         IGenericRepository<Country> Countries { get; }
-        IGenericRepository<Customer> Customers { get; }
         IGenericRepository<Hotel> Hotels { get; }
-        IGenericRepository<Itenary> Itenaries { get; }
         IGenericRepository<ItenaryItem> ItenaryItems { get; }
         IGenericRepository<Location> Locations { get; }
         IGenericRepository<Payment> Payments { get; }

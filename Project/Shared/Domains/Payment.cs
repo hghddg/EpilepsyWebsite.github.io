@@ -8,11 +8,13 @@ namespace Project.Shared.Domains
 {
     public class Payment : BaseDomainModel
     {
+        public string Plan { get; set; }
+
         public float Amount { get; set; }
 
-        public string Type { get; set; }
+        public string Description { get; set; }
 
-        public DateTime Date { get; set; }
+        public string Type { get; set; }
 
     }
 }

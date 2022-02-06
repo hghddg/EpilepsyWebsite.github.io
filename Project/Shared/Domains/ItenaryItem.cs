@@ -28,14 +28,14 @@ namespace Project.Shared.Domains
         public virtual Hotel Hotel { get; set; }
 
         public int? HotelId { get; set; }
-        
-        public virtual Customer Customer { get; set; }
-
+         
         public int? CustomerId { get; set; }
-
-        public virtual Itenary Itenary { get; set; }
-
+       
         public int? ItenaryId { get; set; }
+
+        public virtual Payment Payment { get; set; }
+
+        public int? PaymentId { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
