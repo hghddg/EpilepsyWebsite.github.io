@@ -13,7 +13,8 @@
 
     protected async override Task OnParametersSetAsync()
     {
-        country = await _client.GetFromJsonAsync<Country>($"{Endpoint.CountryEndpoint}/{id}");
+        country = await 
+        _client.GetFromJsonAsync<Country>($"{Endpoint.CountryEndpoint}/{id}");
     }
 
 }

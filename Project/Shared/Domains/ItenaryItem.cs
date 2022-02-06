@@ -28,10 +28,6 @@ namespace Project.Shared.Domains
 
         public int? HotelId { get; set; }
          
-        public int? CustomerId { get; set; }
-       
-        public int? ItenaryId { get; set; }
-
         public virtual Payment Payment { get; set; }
 
         public int? PaymentId { get; set; }
